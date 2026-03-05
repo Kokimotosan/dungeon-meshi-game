@@ -1,0 +1,7 @@
+*. class
+*. jar
+. idea /
+*. iml
+target /
+build /
+. gradle /
