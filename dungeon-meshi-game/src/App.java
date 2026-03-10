@@ -2,12 +2,19 @@ import java.lang.classfile.instruction.SwitchCase;
 import java.util.Scanner;
 
 public class App {
+    // Funções de uso auxiliar
     private static final Scanner input = new Scanner(System.in);
 
     public static int receiveInput(){
         return input.nextInt();
     }
 
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    // Função que mostra o estado do combate
     public static void displayBattleState(int round, Hero hero1, Enemy enemy1, Enemy enemy2){
         System.out.println("===== Batalha =====");
         System.out.println("Rodada " + round);
@@ -27,7 +34,6 @@ public class App {
         DamageCard swordCard = new DamageCard("Espada", 3, 1);
         ShieldCard shieldCard = new ShieldCard("Escudo Pequeno", 3, 1);
 
-
         // Variaveis
         int round = 1;
         int turn = 0;
@@ -35,10 +41,10 @@ public class App {
         int energy = energy_max;
         
         // Loop do combate
-        
         while (Laios.isAlive() || (mushroom1.isAlive() && mushroom2.isAlive())){
             // Printando a telinha da batalha
             displayBattleState(round, Laios, mushroom1, mushroom2);
+            boolean endTurn = false;
 
             turn = turn % 3;
 
@@ -49,25 +55,47 @@ public class App {
                 System.out.println(swordCard.name + ": Causa " + swordCard.damage + " de Dano, Custa " + swordCard.cost + " de Energia");
                 System.out.println(shieldCard.name + ": Concede " + shieldCard.shield + " de Escudo, Custa " + shieldCard.cost + " de Energia");
                 
-                System.out.println("Escolha uma ação: ");
-                System.out.println("(1) Usar " + swordCard.name);
-                System.out.println("(2) Usar " + shieldCard.name);
-                System.out.println("(3) Encerrar turno");
-                
-                switch(receiveInput()){
-                    case 1:
-                        System.out.println("===== Escolha um alvo =====");
-                        System.out.println("(1) Cogumelo Andante" + mushroom1.health + "/" + mushroom1.max_health);
-                        System.out.println("(2) Cogumelo Andante" + mushroom2.health + "/" + mushroom2.max_health); 
-                        switch (receiveInput()) {
-                            case 1:
-                                
-                                break;
-                        
-                            default:
-                                break;
-                        }
-                }
+                // Loop de escolha de ação
+                do {
+                    System.out.println("Escolha uma ação: ");
+                    System.out.println("(1) Usar " + swordCard.name);
+                    System.out.println("(2) Usar " + shieldCard.name);
+                    System.out.println("(3) Encerrar turno");
+                    boolean target = false;
+                    switch(receiveInput()){
+                        case 1:
+                            System.out.println("===== Escolha um alvo =====");
+                            System.out.println("(1) Cogumelo Andante" + mushroom1.health + "/" + mushroom1.max_health);
+                            System.out.println("(2) Cogumelo Andante" + mushroom2.health + "/" + mushroom2.max_health);
+                            System.out.println("(3) Retornar ao menu de ação");
+                            do {
+                                switch (receiveInput()){
+                                    case 1:
+                                        mushroom1.takeDamage(swordCard.damage);
+                                        System.out.println("Cogumelo Andante recebeu " + swordCard.damage);
+                                        target = true;
+                                        break;
+                                    case 2:
+                                        mushroom2.takeDamage(swordCard.damage);
+                                        System.out.println("Cogumelo Andante recebeu " + swordCard.damage);
+                                        target = true;
+                                        break;
+                                    default:
+                                        System.out.println("Opção invalida!");
+                                        break;
+                                }
+                            } while (target);
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            endTurn = true;
+                            break;
+                        default:
+                            System.out.println("Opção invalida!");
+                            break;
+                    }
+                } while (energy == 0 || endTurn);
             }
         }
     }
