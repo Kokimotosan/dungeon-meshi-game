@@ -1,11 +1,13 @@
 public class Enemy {
     String name;
     int health;
+    int max_health;
     int shield;
 
-    public Enemy(String name, int health, int shield){
+    public Enemy(String name, int max_health, int shield){
         this.name = name;
-        this.health = health;
+        this.health = max_health;
+        this.max_health = max_health;
         this.shield = shield;
     }
 

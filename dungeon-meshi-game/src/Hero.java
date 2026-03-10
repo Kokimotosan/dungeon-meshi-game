@@ -1,11 +1,13 @@
 public class Hero {
     public String name;
     public int health;
+    public int max_health;
     public int shield;
 
-    public Hero(String name, int start_health, int start_shield){
+    public Hero(String name, int max_health, int start_shield){
         this.name = name;
-        this.health = start_health;
+        this.max_health = max_health;
+        this.health = max_health;
         this.shield = start_shield;
     }
 

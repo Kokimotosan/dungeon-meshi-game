@@ -1,8 +1,10 @@
 public class ShieldCard {
+    String name;
     int shield;
     int cost;
     
-    public ShieldCard(int shield, int cost){
+    public ShieldCard(String name, int shield, int cost){
+        this.name = name;
         this.shield = shield;
         this.cost = cost;
     }
