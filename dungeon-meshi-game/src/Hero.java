@@ -3,12 +3,14 @@ public class Hero {
     public int health;
     public int max_health;
     public int shield;
+    public int energy_mod;
 
-    public Hero(String name, int max_health, int start_shield){
+    public Hero(String name, int max_health, int start_shield, int energy){
         this.name = name;
         this.max_health = max_health;
         this.health = max_health;
         this.shield = start_shield;
+        this.energy_mod = energy;
     }
 
     public void takeDamage(int dmg){
