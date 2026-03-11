@@ -103,7 +103,7 @@ public class App {
                                 switch (receiveInput()){
                                     case 1:
                                         Laios.gainShield(shieldCard.shield);
-                                        System.out.println("Laios recebeu" + shieldCard.shield + "de escudo");
+                                        System.out.println("Laios recebeu " + shieldCard.shield + " de escudo");
                                         energy -= shieldCard.cost;
                                         target = true;
                                         break;
@@ -115,7 +115,7 @@ public class App {
                                         System.out.println("Opção invalida!");
                                         break;
                                 }
-                            } while (target);
+                            } while (!target);
                             break;
                         case 3:
                             endTurn = true;
