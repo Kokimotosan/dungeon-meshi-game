@@ -45,7 +45,6 @@ public class App {
             displayBattleState(round, Laios, mushroom1, mushroom2);
             
             boolean endTurn = false;
-            int energy = energy_max;
             turn = turn % 3;
 
             if (turn == 0){ // Turno do Herói
@@ -55,9 +54,11 @@ public class App {
                 System.out.println(swordCard.name + ": Causa " + swordCard.damage + " de Dano, Custa " + swordCard.cost + " de Energia");
                 System.out.println(shieldCard.name + ": Concede " + shieldCard.shield + " de Escudo, Custa " + shieldCard.cost + " de Energia");
                 
+                int energy = energy_max;
+
                 // Loop de escolha de ação
                 do {
-                    System.out.println("Escolha uma ação: ");
+                    System.out.println("===== Escolha uma ação ===== ");
                     System.err.println("Energia: " + energy + "/" + energy_max);
                     System.out.println("(1) Usar " + swordCard.name + " | Custo: " + swordCard.cost);
                     System.out.println("(2) Usar " + shieldCard.name + " | Custo: " + shieldCard.cost);
