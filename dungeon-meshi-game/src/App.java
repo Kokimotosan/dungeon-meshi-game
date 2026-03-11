@@ -67,8 +67,8 @@ public class App {
                         case 1:
                             do {
                                 System.out.println("===== Escolha um alvo =====");
-                                System.out.println("(1) Cogumelo Andarilho" + mushroom1.health + "/" + mushroom1.max_health);
-                                System.out.println("(2) Cogumelo Andarilho" + mushroom2.health + "/" + mushroom2.max_health);
+                                System.out.println("(1) Cogumelo Andarilho " + mushroom1.health + "/" + mushroom1.max_health);
+                                System.out.println("(2) Cogumelo Andarilho " + mushroom2.health + "/" + mushroom2.max_health);
                                 System.out.println("(3) Retornar ao menu de ação");
                                 switch (receiveInput()){
                                     case 1:
@@ -91,7 +91,7 @@ public class App {
                                         System.out.println("Opção invalida!");
                                         break;
                                 }
-                            } while (target);
+                            } while (!target);
                             break;
                         case 2:
                             do {
