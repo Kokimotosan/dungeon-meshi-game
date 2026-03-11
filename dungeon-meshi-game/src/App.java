@@ -130,7 +130,8 @@ public class App {
                 mushroom1.attack(Laios, 3);
                 System.out.println("Laios recebeu uma cabeçada de um Cogumelo Andarilho");
                 clearScreen();
-            }   
+            }
+            turn++;   
         }
     }
  }
