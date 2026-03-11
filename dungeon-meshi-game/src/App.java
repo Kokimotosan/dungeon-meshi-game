@@ -38,6 +38,7 @@ public class App {
         int round = 1;
         int turn = 0;
         int energy_max = 1 + Laios.energy_mod;
+        int energy = energy_max;
         
         // Loop do combate
         while (Laios.isAlive() || (mushroom1.isAlive() && mushroom2.isAlive())){
@@ -54,7 +55,7 @@ public class App {
                 System.out.println(swordCard.name + ": Causa " + swordCard.damage + " de Dano, Custa " + swordCard.cost + " de Energia");
                 System.out.println(shieldCard.name + ": Concede " + shieldCard.shield + " de Escudo, Custa " + shieldCard.cost + " de Energia");
                 
-                int energy = energy_max;
+                energy = energy_max;
 
                 // Loop de escolha de ação
                 do {
