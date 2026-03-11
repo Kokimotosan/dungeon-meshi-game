@@ -124,7 +124,7 @@ public class App {
                             break;
                     }
                     clearScreen();
-                } while (energy != 0 || !endTurn);
+                } while (energy != 0 && !endTurn);
             } else {
                 mushroom1.attack(Laios, 3);
                 System.out.println("Laios recebeu uma cabeçada de um Cogumelo Andarilho");
