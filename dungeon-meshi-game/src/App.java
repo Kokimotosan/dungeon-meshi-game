@@ -49,14 +49,13 @@ public class App {
             turn = turn % 3;
 
             if (turn == 0){ // Turno do Herói
+                energy = energy_max;
                 System.out.println("======= Seu Turno ======");
                 System.out.println("Energia: " + energy + "/" + energy_max);
                 System.out.println("Suas Cartas:");
                 System.out.println(swordCard.name + ": Causa " + swordCard.damage + " de Dano, Custa " + swordCard.cost + " de Energia");
                 System.out.println(shieldCard.name + ": Concede " + shieldCard.shield + " de Escudo, Custa " + shieldCard.cost + " de Energia");
                 
-                energy = energy_max;
-
                 // Loop de escolha de ação
                 do {
                     System.out.println("===== Escolha uma ação ===== ");
@@ -75,13 +74,13 @@ public class App {
                                 switch (receiveInput()){
                                     case 1:
                                         mushroom1.takeDamage(swordCard.damage);
-                                        System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + "de dano");
+                                        System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + " de dano");
                                         energy -= swordCard.cost;
                                         target = true;
                                         break;
                                     case 2:
                                         mushroom2.takeDamage(swordCard.damage);
-                                        System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + "de dano");
+                                        System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + " de dano");
                                         energy -= swordCard.cost;
                                         target = true;
                                         break;
@@ -125,7 +124,7 @@ public class App {
                             break;
                     }
                     clearScreen();
-                } while (energy != 0 || endTurn);
+                } while (energy != 0 || !endTurn);
             } else {
                 mushroom1.attack(Laios, 3);
                 System.out.println("Laios recebeu uma cabeçada de um Cogumelo Andarilho");
