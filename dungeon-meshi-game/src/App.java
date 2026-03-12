@@ -10,8 +10,17 @@ public class App {
     }
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        try {
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        }
+        catch(final Exception e){
+            e.printStackTrace();
+        }
     }
 
     // Função que mostra o estado do combate
@@ -46,13 +55,13 @@ public class App {
         int energy = energy_max;
         
         // Loop do combate
-        while (Laios.isAlive() & (mushroom1.isAlive() || mushroom2.isAlive())){
+        while (Laios.isAlive() && (mushroom1.isAlive() || mushroom2.isAlive())){
             boolean endTurn = false;
             turn = turn % 3;
-            displayBattleState(round, Laios, mushroom1, mushroom2);
 
             if (turn == 0){ // Turno do Herói
                 energy = energy_max;
+                displayBattleState(round, Laios, mushroom1, mushroom2);
                 System.out.println("======= Seu Turno ======");
                 System.out.println("Energia: " + energy + "/" + energy_max);
                 System.out.println("Suas Cartas:");
@@ -75,7 +84,8 @@ public class App {
                                 System.out.println("(2) Cogumelo Andarilho " + mushroom2.health + "/" + mushroom2.max_health);
                                 System.out.println("(3) Retornar ao menu de ação");
                                 switch (receiveInput()){
-                                    case 1:
+                                    case 1:displayBattleState(round, Laios, mushroom1, mushroom2);
+                                        clearScreen();
                                         mushroom1.takeDamage(swordCard.damage);
                                         System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + " de dano");
                                         energy -= swordCard.cost;
@@ -83,6 +93,7 @@ public class App {
                                         target = true;
                                         break;
                                     case 2:
+                                        clearScreen();
                                         mushroom2.takeDamage(swordCard.damage);
                                         System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + " de dano");
                                         energy -= swordCard.cost;
@@ -106,6 +117,7 @@ public class App {
                                 System.out.println("(2) Retornar ao menu de ação");
                                 switch (receiveInput()){
                                     case 1:
+                                        clearScreen();
                                         Laios.gainShield(shieldCard.shield);
                                         System.out.println("Laios recebeu " + shieldCard.shield + " de escudo");
                                         energy -= shieldCard.cost;
@@ -113,6 +125,7 @@ public class App {
                                         target = true;
                                         break;
                                     case 2:
+                                        clearScreen();
                                         target = true;
                                         break;
                                     default:
@@ -129,10 +142,13 @@ public class App {
                             System.out.println("Opção invalida!");
                             break;
                     }
-                    clearScreen();
                 } while (energy != 0 && !endTurn);
-            } else {
+                clearScreen();
+            } else if(turn % 3 == 1 && mushroom1.isAlive()) {
                 mushroom1.attack(Laios, 3);
+                System.out.println("Laios recebeu uma cabeçada de um Cogumelo Andarilho (-3)");
+            } else if(turn % 3 == 2 && mushroom2.isAlive()){
+                mushroom2.attack(Laios, 3);
                 System.out.println("Laios recebeu uma cabeçada de um Cogumelo Andarilho (-3)");
             }
             turn++;   

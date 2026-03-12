@@ -1,18 +1,16 @@
-## Getting Started
+## Dungeon Meshi Game
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+A temática para nosso jogo será o mangá "Dungeon Meshi"
+Resumidamente: Um grupo de aventureiros desce uma masmorra com um sistema ecológico próprio para salvar um de seus companheiros, e fazem suas refeições com os monstros que lá habitam.
 
-## Folder Structure
+Por enquanto, o jogo tem apenas uma batalha simples com dois inimigos, um herói, e duas cartas (infinitamente reutilizáveis)
 
-The workspace contains two folders by default, where:
+## Compilação
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+O jogo pode ser compilado seguindo as instruções que estão no doc da tarefa 01:
+    javac -d bin $(find src -name "*.java")
+    java -cp bin App
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+Note que o projeto java está dentro da pasta "dungeon-meshi-game", que está no repositório "dungeon-meshi-game"
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
