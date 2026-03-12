@@ -18,11 +18,16 @@ public class App {
     public static void displayBattleState(int round, Hero hero1, Enemy enemy1, Enemy enemy2){
         System.out.println("===== Batalha =====");
         System.out.println("Rodada " + round);
-        System.out.println(hero1.name + "(" + hero1.health + "/" + hero1.max_health + ")");
-        System.out.println("vs");
-        System.out.println(enemy1.name + "(" + enemy1.health + "/" + enemy1.max_health + ")");
-        System.out.println(enemy2.name + "(" + enemy2.health + "/" + enemy2.max_health + ")");
+        System.out.print(hero1.name + "(" + hero1.health + "/" + hero1.max_health + ")");
+        if(hero1.shield > 0){
+            System.out.printf("(%d de escudo)", hero1.shield);
+        }
         System.out.println();
+        System.out.println("vs");
+        if (enemy1.isAlive())
+            System.out.println(enemy1.name + "(" + enemy1.health + "/" + enemy1.max_health + ")");
+        if (enemy2.isAlive())
+            System.out.println(enemy2.name + "(" + enemy2.health + "/" + enemy2.max_health + ")");
         System.out.println("===== --------- =====");
     }
     
@@ -41,12 +46,10 @@ public class App {
         int energy = energy_max;
         
         // Loop do combate
-        while (Laios.isAlive() || (mushroom1.isAlive() && mushroom2.isAlive())){
-            // Printando a telinha da batalha
-            displayBattleState(round, Laios, mushroom1, mushroom2);
-            
+        while (Laios.isAlive() & (mushroom1.isAlive() || mushroom2.isAlive())){
             boolean endTurn = false;
             turn = turn % 3;
+            displayBattleState(round, Laios, mushroom1, mushroom2);
 
             if (turn == 0){ // Turno do Herói
                 energy = energy_max;
@@ -76,12 +79,14 @@ public class App {
                                         mushroom1.takeDamage(swordCard.damage);
                                         System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + " de dano");
                                         energy -= swordCard.cost;
+                                        displayBattleState(round, Laios, mushroom1, mushroom2);
                                         target = true;
                                         break;
                                     case 2:
                                         mushroom2.takeDamage(swordCard.damage);
                                         System.out.println("Cogumelo Andarilho recebeu " + swordCard.damage + " de dano");
                                         energy -= swordCard.cost;
+                                        displayBattleState(round, Laios, mushroom1, mushroom2);
                                         target = true;
                                         break;
                                     case 3:
@@ -104,6 +109,7 @@ public class App {
                                         Laios.gainShield(shieldCard.shield);
                                         System.out.println("Laios recebeu " + shieldCard.shield + " de escudo");
                                         energy -= shieldCard.cost;
+                                        displayBattleState(round, Laios, mushroom1, mushroom2);
                                         target = true;
                                         break;
                                     case 2:
@@ -127,11 +133,17 @@ public class App {
                 } while (energy != 0 && !endTurn);
             } else {
                 mushroom1.attack(Laios, 3);
-                System.out.println("Laios recebeu uma cabeçada de um Cogumelo Andarilho");
-                clearScreen();
+                System.out.println("Laios recebeu uma cabeçada de um Cogumelo Andarilho (-3)");
             }
             turn++;   
         }
+
+        if(Laios.isAlive()){
+            System.out.println("Você venceu!");
+        } else {
+            System.out.println("Você perdeu...");
+        }
+
     }
  }
 
