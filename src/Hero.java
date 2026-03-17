@@ -1,38 +1,9 @@
-public class Hero {
-    public String name;
-    public int health;
-    public int max_health;
-    public int shield;
+public class Hero extends Character {
     public int energy_mod;
 
-    public Hero(String name, int max_health, int start_shield, int energy){
-        this.name = name;
-        this.max_health = max_health;
-        this.health = max_health;
-        this.shield = start_shield;
-        this.energy_mod = energy;
+    public Hero(String name, int health, int max_health, int start_shield, int energy_mod){
+        super(name, health, max_health, start_shield);
+        this.energy_mod = energy_mod;
     }
-
-    public void takeDamage(int dmg){
-        int remainder = dmg;
-        if (this.shield >= dmg){
-            this.shield -= dmg;
-        } else {
-            remainder -= this.shield;
-            this.shield = 0;
-            this.health -= remainder;
-        }
-    }
-
-    public void gainShield(int shield){
-        this.shield += shield;
-    }
-
-    public boolean isAlive(){
-        if(this.health > 0){
-            return true;
-        }
-        return false;
-
-    }
+    
 }

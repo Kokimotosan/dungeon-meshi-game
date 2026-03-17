@@ -1,15 +1,20 @@
-public class ShieldCard {
+import java.util.ArrayList;
+
+public class ShieldCard extends Card {
     String name;
     int shield;
     int cost;
     
     public ShieldCard(String name, int shield, int cost){
-        this.name = name;
+        super(name, cost);
         this.shield = shield;
-        this.cost = cost;
     }
 
-    public void UseCard(Hero self){
-        self.gainShield(shield);
+    public boolean useCard(ArrayList<Character> target, Party party, Deck deck){
+        if(party.energy < this.cost){
+            return false;
+        }
+        target.get(0).gainShield(shield);
+        return true;
     }
 }

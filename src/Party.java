@@ -1,0 +1,22 @@
+import java.util.ArrayList;
+
+public class Party {
+    ArrayList<Hero> members;
+    int energy;
+
+    public Party(){
+        this.members = new ArrayList<Hero>();
+        this.energy = 0;
+    }
+
+    public void addMember(Hero new_member){
+        this.members.add(new_member);
+    }
+
+    int getMaxEnergy(){
+        int total = 0;
+        for(int i = 0; i < this.members.size(); i++)
+            total += this.members.get(i).energy_mod;
+        return total;
+    }
+}

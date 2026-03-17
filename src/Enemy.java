@@ -1,36 +1,9 @@
-public class Enemy {
-    String name;
-    int health;
-    int max_health;
-    int shield;
+import java.util.ArrayList;
 
-    public Enemy(String name, int max_health, int shield){
-        this.name = name;
-        this.health = max_health;
-        this.max_health = max_health;
-        this.shield = shield;
+public abstract class Enemy extends Character{
+    public Enemy(String name, int health, int max_health, int start_shield){
+        super(name, health, max_health, start_shield);
     }
 
-    public void attack(Hero target, int dmg){
-        target.takeDamage(dmg);
-    }
-
-    public void takeDamage(int dmg){
-        int remainder = dmg;
-        if (this.shield >= dmg){
-            this.shield -= dmg;
-        } else {
-            remainder -= this.shield;
-            this.shield = 0;
-            this.health -= remainder;
-        }
-    }
-
-
-    public boolean isAlive(){
-        if (this.health > 0){
-            return true;
-        }
-        return false;
-    }
+    public abstract void takeTurn(ArrayList<Enemy> enemies, Party party);
 }

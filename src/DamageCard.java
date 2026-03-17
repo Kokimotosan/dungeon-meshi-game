@@ -1,16 +1,21 @@
-public class DamageCard {
+import java.util.ArrayList;
+
+public class DamageCard extends Card {
     String name;
     int damage;
     int cost;
 
     public DamageCard(String name, int damage, int cost){
-        this.name = name;
+        super(name, cost);
         this.damage = damage;
-        this.cost = cost;
     }
 
-    public void useCard(Enemy target){
-        target.takeDamage(this.damage);
-
+    public boolean useCard(ArrayList<Character> target, Party party, Deck deck){
+        if(party.energy < this.cost){
+            return false;
+        }
+        target.get(0).takeDamage(damage);
+        deck.discard_pile.add(this);
+        return true;
     }
 }
