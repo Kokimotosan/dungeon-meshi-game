@@ -5,5 +5,5 @@ public class Hero extends Character {
         super(name, health, max_health, start_shield);
         this.energy_mod = energy_mod;
     }
-    
+
 }

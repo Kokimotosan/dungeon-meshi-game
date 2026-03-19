@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.ArrayDeque;
 
 public class App {
     // Funções de uso auxiliar
@@ -40,12 +39,56 @@ public class App {
         enemies.add(mush1);
         enemies.add(mush2);
 
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Card swordCard = new DamageCard("Espada", 3, 1);
 
-        BattleState currentBattle = new BattleState(party, enemies);
-        currentBattle.printBattleState();
-        currentBattle.passTurn();
-        currentBattle.printBattleState();
+        ShieldCard smallShield = new ShieldCard("Escudo Pequeno", 3, 1);
+        Deck deck = new Deck();
+        deck.cards.add(swordCard);
+        deck.cards.add(swordCard);
+        deck.cards.add(smallShield);
+        
+        BattleState currentBattle = new BattleState(party, enemies, deck);
+        
+        battleLoop(currentBattle);
+    }
+
+    public static void battleLoop(BattleState battle){
+
+       Scanner scan = new Scanner(System.in);
+
+        Character currentCharacter;
+
+        while(!battle.isOver()){
+            currentCharacter = battle.getTurnCharacter();
+            battle.printBattleState();
+
+            if(currentCharacter instanceof Hero){
+                if(battle.turn == 0)
+                    battle.deck.draw(battle.hand, 3);
+                System.out.println("===== Sua mão =====");
+                printHand(battle.hand);
+                System.out.println("===== Turno de " + currentCharacter.name + " =====");
+                System.out.println("(1) Use uma carta");
+                System.out.println("(2) Passe o turno");
+                System.out.print("Escolha uma ação:");
+                scan.nextInt();
+
+                boolean turnOver = false;
+                while(!turnOver){
+                    
+                }
+            }
+        }
+
+        scan.close();
+    }
+
+    public static void printHand(ArrayList<Card> hand){
+        for(int i = 0; i < hand.size(); i++){
+            System.out.println("Carta (" + (i + 1) + ")");
+            hand.get(i).printCard();
+        }
+        System.out.println();
     }
  }
 
