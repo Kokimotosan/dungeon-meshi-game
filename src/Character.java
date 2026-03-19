@@ -33,4 +33,10 @@ public abstract class Character {
         return false;
     }
 
+    public String healthString(){
+        String r = ("(" + this.health + "/" + this.max_health + ") ");
+        if (this.shield > 0)
+            r += ("(" + this.shield + " de Escudo)");
+        return r;
+    }
 }

@@ -31,15 +31,21 @@ public class App {
     
     public static void main(String[] args) throws Exception {
         Party party = new Party();
-        Hero Laios = new Hero("Laios", 20, 20, 0, 2);
+        Hero Laios = new Hero("Laios", 20, 20, 2, 2);
         party.addMember(Laios);
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        Enemy mushroom;
+        Enemy mush1 = new WalkingMushroom(1);
+        Enemy mush2 = new WalkingMushroom(2);
+        enemies.add(mush1);
+        enemies.add(mush2);
 
         ArrayList<Card> hand = new ArrayList<Card>();
 
-
+        BattleState currentBattle = new BattleState(party, enemies);
+        currentBattle.printBattleState();
+        currentBattle.passTurn();
+        currentBattle.printBattleState();
     }
  }
 
