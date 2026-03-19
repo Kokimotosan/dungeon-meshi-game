@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public abstract class Card {
     private String name;
     private int cost;
@@ -9,7 +7,7 @@ public abstract class Card {
         this.cost = cost;
     }
 
-    public abstract boolean useCard(ArrayList<Character> target, Party party, Deck deck);
+    public abstract boolean useCard(Character target, Party party, Deck deck);
 
     public abstract void printCard();
 

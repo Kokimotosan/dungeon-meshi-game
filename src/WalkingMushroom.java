@@ -5,6 +5,8 @@ public class WalkingMushroom extends Enemy{
         super("Cogumelo Andarilho " + index, 8, 8, 0);
     }
 
+    
+
     public void takeTurn(ArrayList<Enemy> enemies, Party party){
         
     }

@@ -68,18 +68,31 @@ public class App {
                 System.out.println("===== Sua mão =====");
                 printHand(battle.hand);
                 System.out.println("===== Turno de " + currentCharacter.name + " =====");
-                System.out.println("(1) Use uma carta");
-                System.out.println("(2) Passe o turno");
                 System.out.print("Escolha uma ação:");
-                scan.nextInt();
+                for (int i = 0; i < battle.hand.size(); i++)
+                    System.out.println("(" + (i + 1) + ")" + " " + battle.hand.get(i).getName());
+                System.out.println("(0) Passe o turno");
+                int choice = scan.nextInt();
 
                 boolean turnOver = false;
                 while(!turnOver){
-                    
+                    while (turnOver) {
+                        
+                    }
+                    if (choice != 0){
+                        if (battle.hand.get(choice - 1) instanceof DamageCard){
+                            battle.selectEnemies(battle.enemies);
+                            System.out.println("(0) Retornar");
+                            int select = scan.nextInt();
+                            if (choice != 0)
+                                if (!battle.hand.get(choice - 1).useCard(battle.enemies.get(select - 1), battle.party, battle.deck))
+                                    System.out.println("Energia Insuficiente");
+                            }
+                        }
+                    }
                 }
             }
         }
-
         scan.close();
     }
 

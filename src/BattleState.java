@@ -46,6 +46,11 @@ public class BattleState{
             return true;
     }
 
+    public void selectEnemies(ArrayList<Enemy> enemies){
+        for(int i = 0; i < this.enemies.size(); i++)
+            System.out.println("("+ (i + 1) + ")" + " " + this.enemies.get(i).name + " " + this.enemies.get(i).healthString());
+    }
+
     public Character getTurnCharacter(){
         int counter = 0;
         Character current;

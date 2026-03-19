@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class DamageCard extends Card {
     private int damage;
 
@@ -8,12 +6,13 @@ public class DamageCard extends Card {
         this.damage = damage;
     }
 
-    public boolean useCard(ArrayList<Character> target, Party party, Deck deck){
+    public boolean useCard(Character target, Party party, Deck deck){
         if(party.energy < this.getCost()){
             return false;
         }
-        target.get(0).takeDamage(damage);
+        target.takeDamage(damage);
         deck.discard_pile.add(this);
+        party.energy -= this.getCost();
         return true;
     }
 

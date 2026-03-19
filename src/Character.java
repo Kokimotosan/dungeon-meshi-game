@@ -25,7 +25,7 @@ public abstract class Character {
     public void gainShield(int shield){
         this.shield += shield;
     }
-
+        
     public boolean isAlive(){
         if(this.health > 0){
             return true;

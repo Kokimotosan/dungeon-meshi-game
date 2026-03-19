@@ -11,6 +11,7 @@ public class Party {
 
     public void addMember(Hero new_member){
         this.members.add(new_member);
+        this.energy += new_member.energy_mod;
     }
 
     int getMaxEnergy(){

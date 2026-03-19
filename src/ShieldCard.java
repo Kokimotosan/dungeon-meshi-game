@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class ShieldCard extends Card {
     int shield;
     
@@ -8,11 +6,13 @@ public class ShieldCard extends Card {
         this.shield = shield;
     }
 
-    public boolean useCard(ArrayList<Character> target, Party party, Deck deck){
+    public boolean useCard(Character target, Party party, Deck deck){
         if(party.energy < this.getCost()){
             return false;
         }
-        target.get(0).gainShield(shield);
+        target.gainShield(shield);
+        deck.discard_pile.add(this);
+        party.energy -= this.getCost();
         return true;
     }
 
