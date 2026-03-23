@@ -8,6 +8,7 @@ public class Deck {
 
     public Deck(){
         cards = new ArrayDeque<Card>();
+        discard_pile = new ArrayList<Card>();
     }
 
     public void shuffleDeck(){

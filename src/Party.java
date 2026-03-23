@@ -14,6 +14,10 @@ public class Party {
         this.energy += new_member.energy_mod;
     }
 
+    public void printEnergy(){
+        System.out.println("Energia: (" + this.energy + "/" + this.getMaxEnergy() + ")");
+    }
+
     int getMaxEnergy(){
         int total = 0;
         for(int i = 0; i < this.members.size(); i++)

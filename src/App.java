@@ -22,15 +22,10 @@ public class App {
             e.printStackTrace();
         }
     }
-
-    // Função que mostra o estado do combate
-    public static void displayBattleState(int round, Character character[]){
-
-    }
     
     public static void main(String[] args) throws Exception {
         Party party = new Party();
-        Hero Laios = new Hero("Laios", 20, 20, 2, 2);
+        Hero Laios = new Hero("Laios", 20, 20, 0, 3);
         party.addMember(Laios);
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -39,13 +34,18 @@ public class App {
         enemies.add(mush1);
         enemies.add(mush2);
 
-        Card swordCard = new DamageCard("Espada", 3, 1);
-
-        ShieldCard smallShield = new ShieldCard("Escudo Pequeno", 3, 1);
         Deck deck = new Deck();
-        deck.cards.add(swordCard);
-        deck.cards.add(swordCard);
-        deck.cards.add(smallShield);
+
+        for(int n = 0; n < 5; n++){
+            Card new_card = new DamageCard("Espada", 3, 1);
+            deck.cards.add(new_card);
+        }
+        for(int n = 0; n < 5; n++){
+            Card new_card = new ShieldCard("Escudo Pequeno", 3, 1);
+            deck.cards.add(new_card);
+        }
+
+        deck.shuffleDeck();
         
         BattleState currentBattle = new BattleState(party, enemies, deck);
         
@@ -54,54 +54,61 @@ public class App {
 
     public static void battleLoop(BattleState battle){
 
-       Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
 
         Character currentCharacter;
 
         while(!battle.isOver()){
             currentCharacter = battle.getTurnCharacter();
-            battle.printBattleState();
 
             if(currentCharacter instanceof Hero){
-                if(battle.turn == 0)
-                    battle.deck.draw(battle.hand, 3);
-                System.out.println("===== Sua mão =====");
-                printHand(battle.hand);
-                System.out.println("===== Turno de " + currentCharacter.name + " =====");
-                System.out.print("Escolha uma ação:");
-                for (int i = 0; i < battle.hand.size(); i++)
-                    System.out.println("(" + (i + 1) + ")" + " " + battle.hand.get(i).getName());
-                System.out.println("(0) Passe o turno");
-                int choice = scan.nextInt();
-
-                boolean turnOver = false;
-                while(!turnOver){
-                    while (turnOver) {
-                        
-                    }
-                    if (choice != 0){
-                        if (battle.hand.get(choice - 1) instanceof DamageCard){
-                            battle.selectEnemies(battle.enemies);
-                            System.out.println("(0) Retornar");
-                            int select = scan.nextInt();
-                            if (choice != 0)
-                                if (!battle.hand.get(choice - 1).useCard(battle.enemies.get(select - 1), battle.party, battle.deck))
-                                    System.out.println("Energia Insuficiente");
-                            }
-                        }
+                if(battle.turn == 0){ // Turno do primeiro herói
+                    battle.discardHand();
+                    battle.party.energy = battle.party.getMaxEnergy();
+                    battle.deck.draw(battle.hand, 5);
+                    for(int i = 0; i < battle.party.members.size(); i++){
+                        battle.party.members.get(i).shield = 0;
                     }
                 }
-            }
-        }
-        scan.close();
-    }
 
-    public static void printHand(ArrayList<Card> hand){
-        for(int i = 0; i < hand.size(); i++){
-            System.out.println("Carta (" + (i + 1) + ")");
-            hand.get(i).printCard();
+                boolean turnOver = false;
+                Card using = new EmptyCard();
+                while(!turnOver){
+                    clearScreen();
+                    using.printUseLog();
+                    battle.printBattleState();
+                    battle.printHand();
+                    System.out.println("===== Turno de " + currentCharacter.name + " =====");
+                    battle.party.printEnergy();
+                    System.out.println("Escolha uma ação:");
+                    for (int i = 0; i < battle.hand.size(); i++)
+                        System.out.println("(" + (i + 1) + ")" + " " + battle.hand.get(i).getName());
+                    System.out.println("(0) Passe o turno");
+                    int choice = scan.nextInt();
+
+                    if (choice != 0){
+                        using = battle.hand.get(choice - 1);
+                        using.useCard(battle, using.askForTarget(battle, scan));
+                    } else{
+                        turnOver = true;
+                        scan.nextLine(); 
+                    }
+                }
+    
+            } else if(currentCharacter instanceof Enemy currentEnemy){
+                clearScreen();
+                currentEnemy.takeTurn(battle);
+                battle.printBattleState();
+                System.out.println("===== Turno de " + currentEnemy.name + " =====");
+                currentEnemy.printActionLog();
+                System.out.println("Dê enter para ver o próximo turno");
+                scan.nextLine();
+            }
+
+            battle.passTurn();
         }
-        System.out.println();
+
+        scan.close();
     }
  }
 

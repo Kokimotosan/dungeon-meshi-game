@@ -66,6 +66,13 @@ public class BattleState{
         return this.party.members.size() + this.enemies.size();
     }
 
+    public void discardHand(){
+        for(int i = 0; i < hand.size(); i++){
+            this.deck.discard_pile.add(this.hand.get(i));
+        }
+        this.hand.clear();
+    }
+
     public void printBattleState(){
         System.out.println("===== Batalha =====");
         System.out.println("Rodada " + round);
@@ -75,9 +82,22 @@ public class BattleState{
         for(int i = 0; i < this.enemies.size(); i++)
             System.out.println(this.enemies.get(i).name + " " + this.enemies.get(i).healthString());
         System.out.println("===== --------- =====");
+        System.out.println();
+    }
+
+    public void printHand(){
+        System.out.println("===== Sua mão =====");
+        for(int i = 0; i < this.hand.size(); i++){
+            this.hand.get(i).printCard();
+            System.out.println();
+        }
+        System.out.println();
     }
 
     public void passTurn(){
-        this.turn += 1 % this.getTurnLoop();
+        this.turn = (this.turn + 1) % this.getTurnLoop();
+        if(this.turn == 0){
+            this.round += 1;
+        }
     }
 }
