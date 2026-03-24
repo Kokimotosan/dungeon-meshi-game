@@ -71,6 +71,7 @@ public class App {
                     }
                 }
 
+                boolean takenAction = false;
                 boolean turnOver = false;
                 Card using = new EmptyCard();
                 while(!turnOver){
@@ -78,7 +79,10 @@ public class App {
                     using.printUseLog();
                     battle.printBattleState();
                     battle.printHand();
-                    System.out.println("===== Turno de " + currentCharacter.name + " =====");
+                    for (Enemy enemy : battle.enemies)
+                        if (enemy.isAlive())
+                            enemy.announceIntentions(battle);
+                    System.out.println("\n" + "===== Turno de " + currentCharacter.name + " =====");
                     battle.party.printEnergy();
                     System.out.println("Escolha uma ação:");
                     for (int i = 0; i < battle.hand.size(); i++)
@@ -86,16 +90,26 @@ public class App {
                     System.out.println("(0) Passe o turno");
                     int choice = scan.nextInt();
 
-                    if (choice != 0){
-                        using = battle.hand.get(choice - 1);
-                        using.useCard(battle, using.askForTarget(battle, scan));
-                    } else{
-                        turnOver = true;
-                        scan.nextLine(); 
+                    while (!takenAction) {
+                        if (choice != 0){
+                            if (choice > battle.hand.size() || choice < 0){
+                                System.out.println("Opção invalida!");
+                                choice = scan.nextInt();
+                            } else {
+                                using = battle.hand.get(choice - 1);
+                                using.useCard(battle, using.askForTarget(battle, scan));
+                                takenAction = true;
+                            }
+                        } else {
+                            takenAction = true;
+                            turnOver = true;
+                            scan.nextLine(); 
+                        }
                     }
+                    takenAction = false;
                 }
     
-            } else if(currentCharacter instanceof Enemy currentEnemy){
+            } else if(currentCharacter instanceof Enemy currentEnemy && currentCharacter.isAlive()){
                 clearScreen();
                 currentEnemy.takeTurn(battle);
                 battle.printBattleState();

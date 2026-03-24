@@ -77,10 +77,12 @@ public class BattleState{
         System.out.println("===== Batalha =====");
         System.out.println("Rodada " + round);
         for(int i = 0; i < this.party.members.size(); i++)
-            System.out.println(this.party.members.get(i).name + " " + this.party.members.get(i).healthString());
+            if (this.party.members.get(i).isAlive())
+                System.out.println(this.party.members.get(i).name + " " + this.party.members.get(i).healthString());
         System.out.println("- vs -");
         for(int i = 0; i < this.enemies.size(); i++)
-            System.out.println(this.enemies.get(i).name + " " + this.enemies.get(i).healthString());
+            if (this.enemies.get(i).isAlive())
+                System.out.println(this.enemies.get(i).name + " " + this.enemies.get(i).healthString());
         System.out.println("===== --------- =====");
         System.out.println();
     }
