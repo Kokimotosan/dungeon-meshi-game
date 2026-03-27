@@ -21,4 +21,4 @@ test {
 
 application {
     mainClass = 'dungeonmeshigame.App'
-    }
+}
