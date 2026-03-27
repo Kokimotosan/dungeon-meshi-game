@@ -1,10 +1,10 @@
 plugins {
-    id 'application' // adds the run task
-    id 'java' // Java support
+    id 'application'
+    id 'java'
 }
 
 repositories {
-    mavenCentral() // where to download
+    mavenCentral()
 }
 
 dependencies {
@@ -12,6 +12,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 }
 
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 application {
     mainClass = 'dungeonmeshigame.App'
-}
+    }
