@@ -22,3 +22,7 @@ test {
 application {
     mainClass = 'dungeonmeshigame.App'
 }
+
+run {
+    standardInput = System.in
+}
