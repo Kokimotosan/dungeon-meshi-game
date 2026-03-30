@@ -10,6 +10,7 @@ public class BattleState{
     ArrayList<Card> hand;
     int round;
     int turn;
+    Publisher publisher;
 
     public BattleState(Party party, ArrayList<Enemy> enemies, Deck deck){
         this.party = party;
@@ -21,6 +22,7 @@ public class BattleState{
         this.initiative.addAll(enemies);
         this.deck = deck;
         this.hand = new ArrayList<Card>();
+        this.publisher = new Publisher();
     }
 
     public boolean isOver(){

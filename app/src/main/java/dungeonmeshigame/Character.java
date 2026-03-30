@@ -1,16 +1,21 @@
 package dungeonmeshigame;
 
+import java.util.ArrayList;
+
 public abstract class Character {
     String name;
     int health;
     int max_health;
     int shield;
+    ArrayList<Effect> effects;
+
 
     public Character(String name, int health, int max_health, int start_shield){
         this.name = name;
         this.max_health = max_health;
         this.health = max_health;
         this.shield = start_shield;
+        this.effects = new ArrayList<Effect>();
     }
 
     public void takeDamage(int dmg){
@@ -35,10 +40,25 @@ public abstract class Character {
         return false;
     }
 
+    public void addEffect(Publisher effect_publisher, Effect effect){
+        this.effects.add(effect);
+        Effect new_effect = effect.mergeEffects();
+        effect_publisher.subscribe(new_effect);
+        
+    }
+
     public String healthString(){
         String r = ("(" + this.health + "/" + this.max_health + ") ");
         if (this.shield > 0)
             r += ("(" + this.shield + " de Escudo)");
         return r;
+    }
+
+    public ArrayList<Effect> getEffects() {
+        return effects;
+    }
+
+    public void setEffects(ArrayList<Effect> effects) {
+        this.effects = effects;
     }
 }

@@ -31,9 +31,9 @@ public class App {
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
         Enemy mush1 = new WalkingMushroom(1);
-        Enemy mush2 = new WalkingMushroom(2);
+        Enemy scorp1 = new HugeScorpion(1);
         enemies.add(mush1);
-        enemies.add(mush2);
+        enemies.add(scorp1);
 
         Deck deck = new Deck();
 
@@ -49,6 +49,8 @@ public class App {
         deck.shuffleDeck();
         
         BattleState currentBattle = new BattleState(party, enemies, deck);
+        Publisher battleFlow = new Publisher();
+        currentBattle.publisher = battleFlow;
         
         battleLoop(currentBattle);
     }
@@ -62,6 +64,7 @@ public static void battleLoop(BattleState battle){
 
             if(currentCharacter instanceof Hero){
                 if(battle.turn == 0){ // Turno do primeiro herói
+                    battle.publisher.notifySubs(Event.START_HERO_TURN);
                     battle.discardHand();
                     battle.party.energy = battle.party.getMaxEnergy();
                     battle.deck.draw(battle.hand, 5);
@@ -98,6 +101,7 @@ public static void battleLoop(BattleState battle){
                                 choice = input.nextInt(); 
                                 input.nextLine(); 
                             } else {
+                                battle.publisher.notifySubs(Event.USE_CARD);
                                 using = battle.hand.get(choice - 1);
                                 using.useCard(battle, using.askForTarget(battle, input));
                                 takenAction = true;
@@ -106,6 +110,7 @@ public static void battleLoop(BattleState battle){
                             takenAction = true;
                             turnOver = true;
                             System.out.println("Aperte Enter para encerrar o turno...");
+                            battle.publisher.notifySubs(Event.END_HERO_TURN);
                             input.nextLine(); 
                         }
                     }
