@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public abstract class Effect extends Subscriber{
     private String name;
     private Character holder;
-    private int stacks;
+    private int duration;
+    private int damage;
 
 
-    public Effect(String name, Character holder, int init_stacks){
+    public Effect(String name, Character holder, int duration, int damage){
         this.name = name;
         this.holder = holder;
-        this.stacks = init_stacks;
+        this.duration = duration;
+        this.damage = damage;
         this.pubs = new ArrayList<Publisher>();
     }
 
@@ -24,15 +26,24 @@ public abstract class Effect extends Subscriber{
     public abstract Effect mergeEffects();
 
     public String getString(){
-        return (this.name + " (" + this.stacks + ")");
+        return (this.name + " (" + this.duration + ")");
     }
 
-    public int getStacks() {
-        return stacks;
+    public int getDuration() {
+        return duration;
     }
-    public void setStacks(int stacks) {
-        this.stacks = stacks;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
+
+    public int getDamage(){
+        return damage;
+    }
+
+    public void setDamage(int damage){
+        this.damage = damage;
+    }
+
     public String getName() {
         return name;
     }
