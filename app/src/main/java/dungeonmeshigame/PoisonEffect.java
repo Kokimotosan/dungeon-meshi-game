@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class PoisonEffect extends Effect{
 
 
-    public PoisonEffect(Character holder, int power){
-        super("Veneno", holder, power);
+    public PoisonEffect(Character holder, int stacks, int damage){
+        super("Veneno", holder, stacks, damage);
     }
 
     public Effect mergeEffects(){
@@ -14,7 +14,7 @@ public class PoisonEffect extends Effect{
         ArrayList<PoisonEffect> merged = new ArrayList<PoisonEffect>();
         for(int i = 0; i < this.getHolder().getEffects().size(); i++){
             if(this.getHolder().effects.get(i) instanceof PoisonEffect currentPoisonEffect){
-                stacks += currentPoisonEffect.getStacks();
+                stacks += currentPoisonEffect.getDuration();
                 merged.add(currentPoisonEffect);
             }
         }
@@ -23,7 +23,7 @@ public class PoisonEffect extends Effect{
             merged.get(i).unnapply();
         }
 
-        PoisonEffect neweffect = new PoisonEffect(getHolder(), stacks);
+        PoisonEffect neweffect = new PoisonEffect(getHolder(), stacks, stacks);
         getHolder().effects.add(neweffect);
         return neweffect;
     }
@@ -35,8 +35,11 @@ public class PoisonEffect extends Effect{
     }
 
     public void apply(){
-        getHolder().health -= getStacks();
-        this.setStacks(this.getStacks() - 1);
+        getHolder().health -= getDamage();
+        this.setDamage(this.getDamage() - 1);
+        this.setDuration(getDuration() - 1);
+        if (this.getDuration() == 0)
+            unnapply();
     }    
 
     public void unnapply(){
