@@ -1,6 +1,9 @@
-public class Subscriber {
+package dungeonmeshigame;
+
+import java.util.ArrayList;
+
+public abstract class Subscriber {
+    ArrayList<Publisher> pubs;
     
-    public void beNotified(){
-        
-    }
+    public abstract void beNotified(Event event);
 }
