@@ -53,9 +53,7 @@ public class App {
         battleLoop(currentBattle);
     }
 
-    public static void battleLoop(BattleState battle){
-
-        Scanner scan = new Scanner(System.in);
+public static void battleLoop(BattleState battle){
 
         Character currentCharacter;
 
@@ -89,22 +87,26 @@ public class App {
                     for (int i = 0; i < battle.hand.size(); i++)
                         System.out.println("(" + (i + 1) + ")" + " " + battle.hand.get(i).getName());
                     System.out.println("(0) Passe o turno");
-                    int choice = scan.nextInt();
+                    
+                    int choice = input.nextInt(); 
+                    input.nextLine(); 
 
                     while (!takenAction) {
                         if (choice != 0){
                             if (choice > battle.hand.size() || choice < 0){
                                 System.out.println("Opção invalida!");
-                                choice = scan.nextInt();
+                                choice = input.nextInt(); 
+                                input.nextLine(); 
                             } else {
                                 using = battle.hand.get(choice - 1);
-                                using.useCard(battle, using.askForTarget(battle, scan));
+                                using.useCard(battle, using.askForTarget(battle, input));
                                 takenAction = true;
                             }
                         } else {
                             takenAction = true;
                             turnOver = true;
-                            scan.nextLine(); 
+                            System.out.println("Aperte Enter para encerrar o turno...");
+                            input.nextLine(); 
                         }
                     }
                     takenAction = false;
@@ -117,13 +119,11 @@ public class App {
                 System.out.println("===== Turno de " + currentEnemy.name + " =====");
                 currentEnemy.printActionLog();
                 System.out.println("Dê enter para ver o próximo turno");
-                scan.nextLine();
+                input.nextLine(); 
             }
 
             battle.passTurn();
         }
-
-        scan.close();
     }
  }
 
