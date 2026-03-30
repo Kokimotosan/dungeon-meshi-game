@@ -35,8 +35,8 @@ public class PoisonEffect extends Effect{
     }
 
     public void apply(){
-        getHolder().health -= getDamage();
-        this.setDamage(this.getDamage() - 1);
+        getHolder().health -= getPower();
+        this.setPower(this.getPower() - 1);
         this.setDuration(getDuration() - 1);
         if (this.getDuration() == 0)
             unnapply();

@@ -3,10 +3,10 @@ package dungeonmeshigame;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class DamageCard extends Card {
+public class SwordCard extends Card {
     private int damage;
 
-    public DamageCard(String name, int damage, int cost){
+    public SwordCard(String name, int damage, int cost){
         super(name, cost);
         this.damage = damage;
     }

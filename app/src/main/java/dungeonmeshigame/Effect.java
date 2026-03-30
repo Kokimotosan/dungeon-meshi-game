@@ -6,14 +6,14 @@ public abstract class Effect extends Subscriber{
     private String name;
     private Character holder;
     private int duration;
-    private int damage;
+    private int power;
 
 
-    public Effect(String name, Character holder, int duration, int damage){
+    public Effect(String name, Character holder, int duration, int power){
         this.name = name;
         this.holder = holder;
         this.duration = duration;
-        this.damage = damage;
+        this.power = power;
         this.pubs = new ArrayList<Publisher>();
     }
 
@@ -36,13 +36,13 @@ public abstract class Effect extends Subscriber{
         this.duration = duration;
     }
 
-    public int getDamage(){
-        return damage;
+    public int getPower(){
+        return power;
     }
 
-    public void setDamage(int damage){
-        this.damage = damage;
-    }
+    public void setPower(int power){
+        this.power = power;
+    }   
 
     public String getName() {
         return name;

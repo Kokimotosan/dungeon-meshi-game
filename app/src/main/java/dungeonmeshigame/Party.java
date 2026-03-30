@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Party {
     ArrayList<Hero> members;
+    int draw;
     int energy;
 
     public Party(){
@@ -25,5 +26,15 @@ public class Party {
         for(int i = 0; i < this.members.size(); i++)
             total += this.members.get(i).energy_mod;
         return total;
+    }
+
+    public int getDraw(){
+        return draw;
+    }
+
+    public void setDraw(ArrayList<Hero> members){
+        for(Hero member : members)
+            if (!member.isParalyzed())
+                draw += member.energy_mod;
     }
 }

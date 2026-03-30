@@ -38,7 +38,7 @@ public class App {
         Deck deck = new Deck();
 
         for(int n = 0; n < 5; n++){
-            Card new_card = new DamageCard("Espada", 3, 1);
+            Card new_card = new SwordCard("Espada", 3, 1);
             deck.cards.add(new_card);
         }
         for(int n = 0; n < 5; n++){

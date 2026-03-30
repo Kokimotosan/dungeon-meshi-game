@@ -11,11 +11,15 @@ public class HugeScorpion extends Enemy{
     }
 
     public void announceIntentions(BattleState battle){
+        Random attack = new Random();
         Random rng = new Random();
-        this.next_attack = 1;
+        this.next_attack = attack.nextInt(1);   
         int choice = rng.nextInt(battle.party.members.size());
         Hero target = battle.party.members.get(choice);
-        System.out.println(this.name + " irá atacar " + target.name);
+        if (this.next_attack == 0)
+            System.out.println(this.name + " irá atacar " + target.name + " causando " + this.getDamage() + " de dano");
+        else
+            System.out.println(this.name + " irá picar " + target.name + " envenenado-o e causando 1 de dano");
         ArrayList<Character> targets = new ArrayList<Character>();
         targets.add(target);
         setTargets(targets);
@@ -41,11 +45,11 @@ public class HugeScorpion extends Enemy{
                 return; 
             Hero target = (Hero)getTargets().get(0);
             target.takeDamage(1);
-            PoisonEffect poison = new PoisonEffect(target, 3);
+            PoisonEffect poison = new PoisonEffect(target, 3, 3);
             target.addEffect(battle.publisher, poison);
             this.setActionLog(this.name + " picou " + target.name + "!");
             if(target.isAlive()){
-                this.setActionLog(this.getActionLog() + "\n" + target.name + " tomou 1 de dano.");
+                this.setActionLog(this.getActionLog() + "\n" + target.name + " tomou 1 de dano e foi envenenado.");
             } else {
                 this.setActionLog(this.getActionLog() + "\n" + target.name + " toma 1 de dano, e desmaia!");
             }
@@ -55,5 +59,5 @@ public class HugeScorpion extends Enemy{
     public void printActionLog(){
         System.out.println(this.getActionLog());
     }
-
+    
 }

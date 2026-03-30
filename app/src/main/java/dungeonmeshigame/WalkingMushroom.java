@@ -13,7 +13,7 @@ public class WalkingMushroom extends Enemy{
         Random rng = new Random();
         int choice = rng.nextInt(battle.party.members.size());
         Hero target = battle.party.members.get(choice);
-        System.out.println(this.name + " irá dar uma cabeçada em " + target.name);
+        System.out.println(this.name + " irá dar uma cabeçada em " + target.name + " causando " + this.getDamage() + " de dano ");
         ArrayList<Character> targets = new ArrayList<Character>();
         targets.add(target);
         setTargets(targets);

@@ -43,8 +43,7 @@ public abstract class Character {
     public void addEffect(Publisher effect_publisher, Effect effect){
         this.effects.add(effect);
         Effect new_effect = effect.mergeEffects();
-        effect_publisher.subscribe(new_effect);
-        
+        effect_publisher.subscribe(new_effect);    
     }
 
     public String healthString(){
