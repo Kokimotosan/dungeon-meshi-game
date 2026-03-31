@@ -50,6 +50,17 @@ public abstract class Character {
         String r = ("(" + this.health + "/" + this.max_health + ") ");
         if (this.shield > 0)
             r += ("(" + this.shield + " de Escudo)");
+        if(this.effects.size() > 0)
+            r += "[";
+        for(int i = 0; i < this.effects.size(); i++){
+            r += this.effects.get(i).getString();
+            if((i+1) < this.effects.size()){
+                r += " / ";
+            }
+        }
+        if(this.effects.size() > 0){
+            r += "]";
+        }
         return r;
     }
 

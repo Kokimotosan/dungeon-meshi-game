@@ -1,26 +1,30 @@
 package dungeonmeshigame;
 
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class DamageCard extends Card {
-    public int damage;
-
-    public DamageCard(String name, int damage, int cost){
+public class PoisonCard extends Card{
+    int power;
+    int damage;
+    
+    public PoisonCard(String name, int power, int damage, int cost){
         super(name, cost);
+        this.power = power;
         this.damage = damage;
-    }
+   }
 
     public boolean useCard(BattleState battle, ArrayList<Character> target){
         if(battle.party.energy < this.getCost()){
             this.setUseLog("Você não tem energia para usar [" + this.getName() + "]");
             return false;
         }
-        target.get(0).takeDamage(damage + getDamageModifiers(battle));
+        PoisonEffect psn_effect = new PoisonEffect(target.get(0), this.power);
+        target.get(0).addEffect(battle.publisher, psn_effect);
+        target.get(0).takeDamage(this.damage + getDamageModifiers(battle));
         battle.hand.remove(this);
         battle.deck.discard_pile.add(this);
         battle.party.energy -= this.getCost();
-        this.setUseLog("Usou [" + this.getName() + "]: " + target.get(0).name + " tomou " + (this.damage + getDamageModifiers(battle)) + " de dano.");
+        this.setUseLog("Usou [" + this.getName() + "]: " + target.get(0).name + " tomou " + (this.damage + getDamageModifiers(battle) + " de dano, e foi afligido com " + psn_effect.getString()));
         return true;
     }
 
@@ -35,15 +39,16 @@ public class DamageCard extends Card {
         return mod;
     }
 
+    public void printUseLog(){
+        System.out.println(this.getUseLog());
+    }
+
     public void printCard(){
         System.out.println("|===== " + this.getName() + " =====|");
         System.out.println("|" + this.getCost() + " custo de energia");
         System.out.println("|Causa " + this.damage + " de dano a um inimigo.");
+        System.out.println("|Aflige o alvo com Veneno (" + this.power + ")");
         System.out.println("|===== " + "-".repeat(this.getName().length()) + " =====|");
-    }
-
-    public void printUseLog(){
-        System.out.println(this.getUseLog());
     }
 
     public ArrayList<Character> askForTarget(BattleState battle, Scanner scan){
@@ -66,5 +71,5 @@ public class DamageCard extends Card {
             System.out.println("Escolha inválida!");
             return this.askForTarget(battle, scan);
         }
-    }
+    }    
 }
