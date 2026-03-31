@@ -4,14 +4,13 @@ public class StrenghtEffect extends Effect {
     int duration;
 
     public StrenghtEffect(Character holder, int power, int duration){
-        super("Força", holder, power);
+        super("Força", holder, duration, power);
         this.duration = duration;
     }
 
     public String getString(){
-        return (this.getName() + " (" + this.getStacks() + ") por " + this.duration + " turno(s)");
+        return (this.getName() + " (" + this.getPower() + ") por " + this.duration + " turno(s)");
     }
-
 
     public Effect mergeEffects(){
         return this;

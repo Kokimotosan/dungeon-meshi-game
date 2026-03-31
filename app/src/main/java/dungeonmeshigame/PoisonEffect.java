@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class PoisonEffect extends Effect{
 
-
     public PoisonEffect(Character holder, int stacks, int damage){
         super("Veneno", holder, stacks, damage);
     }

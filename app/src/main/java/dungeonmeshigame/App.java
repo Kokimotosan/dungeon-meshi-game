@@ -43,7 +43,7 @@ public class App {
         Card poison_vial = new PoisonCard("Ferrão de Escorpião", 2, 1, 1);
         deck.cards.add(poison_vial);
         for(int n = 0; n < 4; n++){
-            Card new_card = new DamageCard("Espada", 3, 1);
+            Card new_card = new SwordCard("Espada", 3, 1);
             deck.cards.add(new_card);
         }
         for(int n = 0; n < 4; n++){

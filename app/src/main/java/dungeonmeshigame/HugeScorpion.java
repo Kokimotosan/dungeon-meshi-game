@@ -41,7 +41,7 @@ public class HugeScorpion extends Enemy{
                 return; 
             Hero target = (Hero)getTargets().get(0);
             target.takeDamage(1);
-            PoisonEffect poison = new PoisonEffect(target, 3);
+            PoisonEffect poison = new PoisonEffect(target, 3, 3);
             target.addEffect(battle.publisher, poison);
             this.setActionLog(this.name + " picou " + target.name + "!");
             if(target.isAlive()){

@@ -18,7 +18,7 @@ public class PoisonCard extends Card{
             this.setUseLog("Você não tem energia para usar [" + this.getName() + "]");
             return false;
         }
-        PoisonEffect psn_effect = new PoisonEffect(target.get(0), this.power);
+        PoisonEffect psn_effect = new PoisonEffect(target.get(0), this.power ,this.power);
         target.get(0).addEffect(battle.publisher, psn_effect);
         target.get(0).takeDamage(this.damage + getDamageModifiers(battle));
         battle.hand.remove(this);
@@ -33,7 +33,7 @@ public class PoisonCard extends Card{
         Character current = battle.getTurnCharacter();
         for(int i = 0; i < current.effects.size(); i++){
             if(current.effects.get(i) instanceof StrenghtEffect eff){
-                mod += eff.getStacks();
+                mod += eff.getPower();
             }
         }
         return mod;

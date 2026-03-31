@@ -3,10 +3,10 @@ package dungeonmeshigame;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class DamageCard extends Card {
+public class SwordCard extends Card {
     public int damage;
 
-    public DamageCard(String name, int damage, int cost){
+    public SwordCard(String name, int damage, int cost){
         super(name, cost);
         this.damage = damage;
     }
@@ -29,7 +29,7 @@ public class DamageCard extends Card {
         Character current = battle.getTurnCharacter();
         for(int i = 0; i < current.effects.size(); i++){
             if(current.effects.get(i) instanceof StrenghtEffect eff){
-                mod += eff.getStacks();
+                mod += eff.getPower();
             }
         }
         return mod;
