@@ -1,6 +1,5 @@
 package dungeonmeshigame;
 
-import java.security.cert.PolicyQualifierInfo;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,7 +12,7 @@ public class HugeScorpion extends Enemy{
 
     public void announceIntentions(BattleState battle){
         Random rng = new Random();
-        this.next_attack = 1;
+        this.next_attack = rng.nextInt(2);
         int choice = rng.nextInt(battle.party.members.size());
         Hero target = battle.party.members.get(choice);
         System.out.println(this.name + " irá atacar " + target.name);
