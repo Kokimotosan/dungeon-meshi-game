@@ -26,3 +26,11 @@ application {
 run {
     standardInput = System.in
 }
+
+javadoc {
+    destinationDir = file("${buildDir}/docs/javadoc")
+    options.memberLevel = JavadocMemberLevel.PRIVATE
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
+    options.addBooleanOption('private', true)
+}

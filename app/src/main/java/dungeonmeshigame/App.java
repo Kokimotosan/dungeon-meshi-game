@@ -3,8 +3,9 @@ package dungeonmeshigame;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/** */
+
 public class App {
-    // Funções de uso auxiliar
     private static final Scanner input = new Scanner(System.in);
     public static int receiveInput(){
         return input.nextInt();
