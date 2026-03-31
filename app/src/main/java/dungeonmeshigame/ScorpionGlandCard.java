@@ -39,12 +39,14 @@ public boolean useCard(BattleState battle, ArrayList<Character> targets){
     }
 
     public ArrayList<Character> askForTarget(BattleState battle, Scanner scan){
+        int aliveTargets;
         System.out.println("Escolha uma alvo:");
-        for(int i = 0; i < battle.enemies.size(); i++){
-            System.out.println("(" + (i+1) + ") " + battle.enemies.get(i).name);
+        for(aliveTargets = 0; aliveTargets < battle.enemies.size(); aliveTargets++){
+            if (battle.enemies.get(aliveTargets).isAlive())
+                System.out.println("(" + (aliveTargets+1) + ") " + battle.enemies.get(aliveTargets).name);
         }
         int choice = scan.nextInt();
-        if (choice >= 1 && choice <= battle.enemies.size()){
+        if (choice >= 1 && choice <= aliveTargets){
             ArrayList<Character> return_list = new ArrayList<Character>();
             return_list.add(battle.enemies.get(choice-1));
             return return_list;

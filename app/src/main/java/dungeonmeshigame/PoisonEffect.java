@@ -24,6 +24,7 @@ public class PoisonEffect extends Effect{
         }
 
         PoisonEffect neweffect = new PoisonEffect(getHolder(), stacks, stacks);
+        
         getHolder().effects.add(neweffect);
         return neweffect;
     }
