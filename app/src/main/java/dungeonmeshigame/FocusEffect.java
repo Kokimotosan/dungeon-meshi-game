@@ -37,12 +37,7 @@ public class FocusEffect extends Effect{
     }
 
     public void apply(){
-        getHolder().
-        this.setPower(this.getPower() - 1);
-        this.setDuration(getDuration() - 1);
-        if (this.getDuration() == 0)
-            unnapply();
-    }    
+    }
 
     public void unnapply(){
         getHolder().effects.remove(this);

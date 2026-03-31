@@ -45,6 +45,10 @@ public class App {
             Card new_card = new ShieldCard("Escudo Pequeno", 3, 1);
             deck.cards.add(new_card);
         }
+        for(int n = 0; n < 5; n++){
+            Card new_card = new ScorpionGlandCard("Glandula de Veneno de Escorpião", 3, 3);
+            deck.cards.add(new_card);
+        }
 
         deck.shuffleDeck();
         
