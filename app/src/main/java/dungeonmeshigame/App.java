@@ -3,14 +3,38 @@ package dungeonmeshigame;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-/** */
-
+/**
+ * A classe principal responsável por inicializar e executar o jogo Dungeon Meshi.
+ * <p>
+ * Esta classe atua como o motor do jogo em modo texto, configurando o estado
+ * inicial da partida (grupo de heróis, inimigos, deck de cartas) e gerenciando
+ * o laço principal de batalha (turnos, ações, verificação de vitória/derrota).
+ * </p>
+ * * @author [Julio da Silva Telles RA:281275] e [Andre Storti RA:294852]
+ * @version 1.4
+ */
 public class App {
+    
+    /**
+     * Scanner estático utilizado para ler as entradas do jogador no console de forma global.
+     */
     private static final Scanner input = new Scanner(System.in);
+
+    /**
+     * Lê um número inteiro digitado pelo usuário no console.
+     * * @return O número inteiro inserido pelo jogador.
+     */
     public static int receiveInput(){
         return input.nextInt();
     }
 
+    /**
+     * Limpa a tela do terminal do jogador para manter a interface organizada.
+     * <p>
+     * O método detecta o sistema operacional (Windows ou baseado em Unix) 
+     * e executa o comando de limpeza apropriado ("cls" para Windows, "clear" para Unix).
+     * </p>
+     */
     public static void clearScreen() {
         try {
             final String os = System.getProperty("os.name");
@@ -25,6 +49,16 @@ public class App {
         }
     }
     
+    /**
+     * Ponto de entrada principal do programa.
+     * <p>
+     * Este método inicializa o herói (Laios), cria os inimigos (cogumelo e escorpião),
+     * constrói e embaralha o deck inicial de cartas (ataques, defesas, venenos e efeitos de força),
+     * e inicia a máquina de estados da batalha.
+     * </p>
+     * * @param args (não utilizado)
+     * @throws Exception Caso ocorra algum erro durante a execução dos processos do sistema.
+     */
     public static void main(String[] args) throws Exception {
         Party party = new Party();
         Hero Laios = new Hero("Laios", 20, 20, 0, 3);
@@ -37,7 +71,6 @@ public class App {
         enemies.add(scorp1);
 
         Deck deck = new Deck();
-
 
         Card strenght_card = new StrenghtCard("Força",  3, 1, 1);
         deck.cards.add(strenght_card);
@@ -61,7 +94,18 @@ public class App {
         battleLoop(currentBattle);
     }
 
-public static void battleLoop(BattleState battle){
+    /**
+     * Controla o fluxo central do combate até que o jogo termine.
+     * <p>
+     * O método gerencia a alternância de turnos entre os heróis e os inimigos. 
+     * Durante o turno do herói, exibe as opções de cartas, gerencia a energia,
+     * permite o uso de itens/ataques/cartas e notifica eventos do jogo. 
+     * Durante o turno dos inimigos, automatiza seus ataques.
+     * Ao final, verifica e exibe a mensagem de vitória ou derrota.
+     * </p>
+     * * @param battle O objeto {@link BattleState} contendo as informações e o estado atual da batalha.
+     */
+    public static void battleLoop(BattleState battle){
 
         Character currentCharacter;
 
@@ -153,5 +197,4 @@ public static void battleLoop(BattleState battle){
             System.out.println("Sua equipe foi derrotada...");
         }
     }
- }
-
+}

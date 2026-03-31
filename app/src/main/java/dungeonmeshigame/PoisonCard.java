@@ -3,16 +3,33 @@ package dungeonmeshigame;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Representa uma carta de ataque que inflige Dano base e aplica um estado de Veneno.
+ */
 public class PoisonCard extends Card{
     int power;
     int damage;
     
+    /**
+     * Construtor da carta de veneno.
+     * * @param name Nome da carta.
+     * @param power Potência do veneno.
+     * @param damage Dano direto do golpe.
+     * @param cost Custo de energia para jogar a carta.
+     */
     public PoisonCard(String name, int power, int damage, int cost){
         super(name, cost);
         this.power = power;
         this.damage = damage;
    }
 
+    /**
+     * Usa a carta gastando energia do grupo, causa dano e aplica o efeito 
+     * de veneno no inimigo alvo. Envia a carta para o descarte em caso de sucesso.
+     * * @param battle O estado da batalha atual.
+     * @param target O alvo ou lista de alvos (neste caso, usa apenas o primeiro índice).
+     * @return true se foi possível jogar, false caso falte energia.
+     */
     public boolean useCard(BattleState battle, ArrayList<Character> target){
         if(battle.party.energy < this.getCost()){
             this.setUseLog("Você não tem energia para usar [" + this.getName() + "]");
@@ -28,6 +45,11 @@ public class PoisonCard extends Card{
         return true;
     }
 
+    /**
+     * Calcula eventuais modificadores de dano causados por efeitos de aumento de Força.
+     * * @param battle O estado da batalha (para identificar quem tem o turno atual).
+     * @return O valor extra a adicionar ao dano base da carta.
+     */
     public int getDamageModifiers(BattleState battle){
         int mod = 0;
         Character current = battle.getTurnCharacter();
@@ -51,6 +73,9 @@ public class PoisonCard extends Card{
         System.out.println("|===== " + "-".repeat(this.getName().length()) + " =====|");
     }
 
+    /**
+     * Pede ao jogador via terminal que selecione o alvo inimigo onde pretende usar o ataque.
+     */
     public ArrayList<Character> askForTarget(BattleState battle, Scanner scan){
         ArrayList<Character> aux = new ArrayList<Character>();
         for(int i = 0; i < battle.enemies.size(); i++){
@@ -62,7 +87,7 @@ public class PoisonCard extends Card{
             System.out.println("Não há nenhum alvo válido.");
             return aux;
         }
-        System.out.println("Escolha uma alvo:");
+        System.out.println("Escolha um alvo:");
         for(int i = 0; i < aux.size(); i++){
             System.out.println("(" + (i+1) + ") " + aux.get(i).name);
         }

@@ -3,13 +3,28 @@ package dungeonmeshigame;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Representa um inimigo específico: "Escorpião Gigante".
+ * <p>
+ * Este inimigo possui ataques físicos normais (pinçadas) e ataques que 
+ * aplicam o efeito de veneno no jogador.
+ * </p>
+ */
 public class HugeScorpion extends Enemy{
     public int next_attack;
 
+    /**
+     * Constrói um novo escorpião com valores predefinidos.
+     * * @param index O índice do escorpião, para o distinguir de múltiplos escorpiões no campo de batalha.
+     */
     public HugeScorpion(int index){
         super("Escorpião Gigante " + index, 12, 12, 0,5, new ArrayList<Character>());
     }
 
+    /**
+     * Escolhe aleatoriamente se irá fazer um ataque normal ou envenenar.
+     * Define aleatoriamente também o alvo entre os heróis vivos.
+     */
     public void announceIntentions(BattleState battle){
         Random rng = new Random();
         this.next_attack = rng.nextInt(2);
@@ -22,6 +37,10 @@ public class HugeScorpion extends Enemy{
         return;
     }
 
+    /**
+     * Executa a ação do turno (causa o dano previamente anunciado e/ou aplica veneno) e 
+     * constrói a mensagem de registo (actionLog) para exibir ao jogador.
+     */
     public void takeTurn(BattleState battle){
         if(this.next_attack == 0){
             if (getTargets().isEmpty())
@@ -52,6 +71,9 @@ public class HugeScorpion extends Enemy{
         }
     }
 
+    /**
+     * Imprime no terminal as ações feitas pelo escorpião no seu turno.
+     */
     public void printActionLog(){
         System.out.println(this.getActionLog());
     }
