@@ -85,6 +85,10 @@ public static void battleLoop(BattleState battle){
                     clearScreen();
                     using.printUseLog();
                     battle.printBattleState();
+                    if(battle.isOver()){
+                        turnOver = true;
+                        continue;
+                    }
                     battle.printHand();
                     for (Enemy enemy : battle.enemies)
                         if (enemy.isAlive())
@@ -133,6 +137,19 @@ public static void battleLoop(BattleState battle){
             }
 
             battle.passTurn();
+        }
+
+        boolean one_hero_alive = false;
+        for(Character chara:battle.party.members){
+            if(chara.isAlive()){
+                one_hero_alive = true;
+                break;
+            }
+        }
+        if(one_hero_alive){
+            System.out.println("Você venceu!");
+        }else{
+            System.out.println("Sua equipe foi derrotada...");
         }
     }
  }
