@@ -27,14 +27,4 @@ public class Party {
             total += this.members.get(i).energy_mod;
         return total;
     }
-
-    public int getDraw(){
-        return draw;
-    }
-
-    public void setDraw(ArrayList<Hero> members){
-        for(Hero member : members)
-            if (!member.isParalyzed())
-                draw += member.energy_mod;
-    }
 }

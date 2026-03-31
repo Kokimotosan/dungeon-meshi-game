@@ -1,6 +1,6 @@
 package dungeonmeshigame;
 
-import java.util.ArrayList;
+    import java.util.ArrayList;
 
 public abstract class Enemy extends Character{
     private String actionLog;
