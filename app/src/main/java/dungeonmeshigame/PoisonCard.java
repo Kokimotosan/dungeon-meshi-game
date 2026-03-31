@@ -58,6 +58,10 @@ public class PoisonCard extends Card{
                 aux.add(battle.enemies.get(i));
             }
         }
+        if(aux.size() == 0){
+            System.out.println("Não há nenhum alvo válido.");
+            return aux;
+        }
         System.out.println("Escolha uma alvo:");
         for(int i = 0; i < aux.size(); i++){
             System.out.println("(" + (i+1) + ") " + aux.get(i).name);
