@@ -4,23 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Representa uma carta de benefício (buff) que aumenta a força de um aliado.
- * <p>
- * Ao ser jogada, esta carta aplica um efeito de estado positivo (Força) 
- * que aumenta o dano causado pelo herói alvo durante um determinado número de rodadas.
- * </p>
+ * Representa uma carta de buff que aumenta a força de um aliado.
  */
 public class StrenghtCard extends Card{
     int power;
     int duration;
     
-    /**
-     * Construtor da carta de Força.
-     * * @param name O nome da carta.
-     * @param power O valor do aumento de dano (potência do efeito).
-     * @param duration A quantidade de rodadas que o efeito dura.
-     * @param cost O custo em energia para jogar a carta.
-     */
     public StrenghtCard(String name, int power, int duration, int cost){
         super(name, cost);
         this.power = power;

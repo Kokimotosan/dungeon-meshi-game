@@ -6,17 +6,11 @@ import java.util.Random;
 /**
  * Representa um inimigo específico: "Escorpião Gigante".
  * <p>
- * Este inimigo possui ataques físicos normais (pinçadas) e ataques que 
- * aplicam o efeito de veneno no jogador.
- * </p>
+
  */
 public class HugeScorpion extends Enemy{
     public int next_attack;
 
-    /**
-     * Constrói um novo escorpião com valores predefinidos.
-     * * @param index O índice do escorpião, para o distinguir de múltiplos escorpiões no campo de batalha.
-     */
     public HugeScorpion(int index){
         super("Escorpião Gigante " + index, 12, 12, 0,5, new ArrayList<Character>());
     }

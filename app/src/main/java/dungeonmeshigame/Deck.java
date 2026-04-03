@@ -7,9 +7,6 @@ import java.util.Collections;
 /**
  * Representa o baralho de cartas do jogador durante a batalha.
  * <p>
- * Gere as cartas por comprar e a pilha de descarte, responsabilizando-se 
- * por baralhar o baralho quando as cartas se esgotam.
- * </p>
  */
 public class Deck {
     public ArrayDeque<Card> cards;

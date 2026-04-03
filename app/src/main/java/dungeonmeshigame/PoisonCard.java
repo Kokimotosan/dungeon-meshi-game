@@ -7,19 +7,12 @@ import java.util.Scanner;
  * Representa uma carta de ataque que inflige Dano base e aplica um estado de Veneno.
  */
 public class PoisonCard extends Card{
-    int power;
+    int poison_power;
     int damage;
     
-    /**
-     * Construtor da carta de veneno.
-     * * @param name Nome da carta.
-     * @param power Potência do veneno.
-     * @param damage Dano direto do golpe.
-     * @param cost Custo de energia para jogar a carta.
-     */
     public PoisonCard(String name, int power, int damage, int cost){
         super(name, cost);
-        this.power = power;
+        this.poison_power = power;
         this.damage = damage;
    }
 
@@ -35,7 +28,7 @@ public class PoisonCard extends Card{
             this.setUseLog("Você não tem energia para usar [" + this.getName() + "]");
             return false;
         }
-        PoisonEffect psn_effect = new PoisonEffect(target.get(0), this.power ,this.power);
+        PoisonEffect psn_effect = new PoisonEffect(target.get(0), this.poison_power ,this.poison_power);
         target.get(0).addEffect(battle.publisher, psn_effect);
         target.get(0).takeDamage(this.damage + getDamageModifiers(battle));
         battle.hand.remove(this);
@@ -69,7 +62,7 @@ public class PoisonCard extends Card{
         System.out.println("|===== " + this.getName() + " =====|");
         System.out.println("|" + this.getCost() + " custo de energia");
         System.out.println("|Causa " + this.damage + " de dano a um inimigo.");
-        System.out.println("|Aflige o alvo com Veneno (" + this.power + ")");
+        System.out.println("|Aflige o alvo com Veneno (" + this.poison_power + ")");
         System.out.println("|===== " + "-".repeat(this.getName().length()) + " =====|");
     }
 
