@@ -15,25 +15,22 @@ import java.util.ArrayList;
  */
 public class App {
     
-    /**
-     * Scanner estático utilizado para ler as entradas do jogador no console de forma global.
-     */
     private static final Scanner input = new Scanner(System.in);
 
-    /**
-     * Lê um número inteiro digitado pelo usuário no console.
-     * * @return O número inteiro inserido pelo jogador.
-     */
     public static int receiveInput(){
         return input.nextInt();
     }
 
+    public static void delayPrint(int ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }     
+    }
+
     /**
      * Limpa a tela do terminal do jogador para manter a interface organizada.
-     * <p>
-     * O método detecta o sistema operacional (Windows ou baseado em Unix) 
-     * e executa o comando de limpeza apropriado ("cls" para Windows, "clear" para Unix).
-     * </p>
      */
     public static void clearScreen() {
         try {
@@ -74,8 +71,8 @@ public class App {
 
         Card strenght_card = new StrenghtCard("Força",  3, 1, 1);
         deck.cards.add(strenght_card);
-        Card poison_vial = new PoisonCard("Ferrão de Escorpião", 2, 1, 1);
-        deck.cards.add(poison_vial);
+        Card poison_sting = new PoisonCard("Ferrão de Escorpião", 2, 1, 1);
+        deck.cards.add(poison_sting);
         for(int n = 0; n < 4; n++){
             Card new_card = new SwordCard("Espada", 3, 1);
             deck.cards.add(new_card);
