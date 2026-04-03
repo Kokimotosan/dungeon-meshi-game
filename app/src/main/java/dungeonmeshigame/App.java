@@ -49,8 +49,8 @@ public class App {
     /**
      * Ponto de entrada principal do programa.
      * <p>
-     * Este método inicializa o herói (Laios), cria os inimigos (cogumelo e escorpião),
-     * constrói e embaralha o deck inicial de cartas (ataques, defesas, venenos e efeitos de força),
+     * Este método inicializa o herói(s), cria os inimigos,
+     * constrói e embaralha o deck inicial de cartas,
      * e inicia a máquina de estados da batalha.
      * </p>
      * * @param args (não utilizado)
