@@ -3,8 +3,8 @@ package dungeonmeshigame;
 public class StrenghtEffect extends Effect {
     int duration;
 
-    public StrenghtEffect(Character holder, int power, int duration){
-        super("Força", holder, power);
+    public StrenghtEffect(String name, Character holder, int power, int duration){
+        super(name, holder, power);
         this.duration = duration;
     }
 

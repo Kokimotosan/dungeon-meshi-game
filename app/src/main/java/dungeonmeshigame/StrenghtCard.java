@@ -18,7 +18,7 @@ public class StrenghtCard extends Card{
             this.setUseLog("Você não tem energia para usar [" + this.getName() + "]");
             return false;
         }
-        StrenghtEffect str_effect = new StrenghtEffect(target.get(0), this.power, this.duration);
+        StrenghtEffect str_effect = new StrenghtEffect("Força", target.get(0), this.power, this.duration);
         target.get(0).addEffect(battle.publisher, str_effect);
         battle.hand.remove(this);
         battle.deck.discard_pile.add(this);
