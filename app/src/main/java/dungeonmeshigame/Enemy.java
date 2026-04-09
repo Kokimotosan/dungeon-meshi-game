@@ -36,6 +36,8 @@ public abstract class Enemy extends Character{
      */
     public abstract void announceIntentions(BattleState battle);
 
+    public abstract void setIntentions(BattleState battle);
+
     /**
      * Executa a ação do inimigo com base nas intenções previamente anunciadas.
      * * @param battle O estado da batalha atual.

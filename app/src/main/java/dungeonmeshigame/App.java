@@ -115,6 +115,9 @@ public class App {
             if(currentCharacter instanceof Hero){
                 if(battle.turn == 0){ // Turno do primeiro herói
                     battle.publisher.notifySubs(Event.START_HERO_TURN);
+                    for(Enemy enemy : battle.enemies){
+                        enemy.setIntentions(battle);
+                    }
                     battle.discardHand();
                     battle.party.energy = battle.party.getMaxEnergy();
                     battle.deck.draw(battle.hand, 5);

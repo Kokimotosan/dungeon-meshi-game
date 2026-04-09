@@ -14,15 +14,23 @@ public class HugeScorpion extends Enemy{
         super("Escorpião Gigante " + index, 12, 12, 0,5, new ArrayList<Character>());
     }
 
+
+    public void setIntentions(BattleState battle){
+        Random rng = new Random();
+        this.setNextAttack(rng.nextInt(2));
+        int choice = rng.nextInt(battle.party.members.size());
+        Hero target = battle.party.members.get(choice);
+        ArrayList<Character> target_list = new ArrayList<Character>();
+        target_list.add(target);
+        this.setTargets(target_list);
+    }
+
     /**
      * Escolhe aleatoriamente se irá fazer um ataque normal ou envenenar.
      * Define aleatoriamente também o alvo entre os heróis vivos.
      */
     public void announceIntentions(BattleState battle){
-        Random rng = new Random();
-        this.setNextAttack(rng.nextInt(2));
-        int choice = rng.nextInt(battle.party.members.size());
-        Hero target = battle.party.members.get(choice);
+        Character target = this.getTargets().get(0);
         if(getNextAttack() == 0){
             System.out.println(this.name + " irá atacar " + target.name + " causando 5 de dano.");
         } else {

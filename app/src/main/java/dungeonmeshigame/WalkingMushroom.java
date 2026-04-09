@@ -25,6 +25,16 @@ public class WalkingMushroom extends Enemy{
         super("Cogumelo Andarilho " + index, 8, 8, 0,3, new ArrayList<Character>());
     }
 
+    public void setIntentions(BattleState battle){
+        Random rng = new Random();
+        this.setNextAttack(rng.nextInt(2));
+        int choice = rng.nextInt(battle.party.members.size());
+        Hero target = battle.party.members.get(choice);
+        ArrayList<Character> target_list = new ArrayList<Character>();
+        target_list.add(target);
+        this.setTargets(target_list);
+    }
+
     /**
      * Define aleatoriamente qual herói será o alvo do ataque neste turno e 
      * anuncia a intenção de ataque no ecrã/terminal.
@@ -32,10 +42,7 @@ public class WalkingMushroom extends Enemy{
      * @param battle O estado atual da batalha (utilizado para acessar à lista de heróis do grupo).
      */
     public void announceIntentions(BattleState battle){
-        Random rng = new Random();
-        this.setNextAttack(rng.nextInt(2));
-        int choice = rng.nextInt(battle.party.members.size());
-        Hero target = battle.party.members.get(choice);
+        Character target = this.getTargets().get(0);
         if(getNextAttack() == 0){
             System.out.println(this.name + " irá dar uma cabeçada em " + target.name + " causando 3 de dano.");
         } else {
