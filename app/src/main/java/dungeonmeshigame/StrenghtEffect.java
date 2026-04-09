@@ -54,9 +54,9 @@ public class StrenghtEffect extends Effect {
      * </p>
      * * @param event O evento atual emitido pelo publicador da batalha.
      */
-    public void beNotified(Event event){
+    public void beNotified(BattleState battle, Event event){
         if(event == Event.END_HERO_TURN){
-            this.apply();
+            this.apply(battle);
         }
     }
 
@@ -67,7 +67,7 @@ public class StrenghtEffect extends Effect {
      * o efeito invoca o método {@code unnapply()} para se remover do personagem.
      * </p>
      */
-    public void apply(){
+    public void apply(BattleState battle){
         this.duration -= 1;
         if(this.duration <= 0){
             this.unnapply();

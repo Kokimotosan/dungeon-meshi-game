@@ -12,12 +12,14 @@ import java.util.ArrayList;
  */
 public class Publisher{
     ArrayList<Subscriber> subs;
+    BattleState battle;
     
     /**
      * Construtor padrão. Inicializa o publicador com uma lista vazia de subscritores.
      */
-    public Publisher(){
+    public Publisher(BattleState battle){
         this.subs = new ArrayList<Subscriber>();
+        this.battle = battle;
     }
 
     /**
@@ -55,7 +57,7 @@ public class Publisher{
      */
     public void notifySubs(Event event){
         for(int i = 0; i < this.subs.size(); i++){
-            this.subs.get(i).beNotified(event);
+            this.subs.get(i).beNotified(this.battle, event);
         }
     }
 }

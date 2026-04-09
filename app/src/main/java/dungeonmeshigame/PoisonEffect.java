@@ -59,9 +59,9 @@ public class PoisonEffect extends Effect{
      * </p>
      * * @param event O evento atual emitido pelo publicador do jogo.
      */
-    public void beNotified(Event event){
+    public void beNotified(BattleState battle, Event event){
         if(event == Event.END_HERO_TURN){
-            this.apply();
+            this.apply(battle);
         }
     }
 
@@ -73,26 +73,11 @@ public class PoisonEffect extends Effect{
      * diminuem em 1. Se a duração chegar a 0, o efeito é dissipado.
      * </p>
      */
-    public void apply(){
+    public void apply(BattleState battle){
         getHolder().health -= getPower();
         this.setPower(this.getPower() - 1);
         this.setDuration(getDuration() - 1);
         if (this.getDuration() == 0)
             unnapply();
     }    
-
-    /**
-     * Remove este efeito de veneno do personagem e limpa as subscrições.
-     * <p>
-     * O efeito é retirado da lista de efeitos ativos do personagem e 
-     * cancela a sua inscrição em todos os publicadores de eventos, para que 
-     * deixe de receber notificações de passagem de turno.
-     * </p>
-     */
-    public void unnapply(){
-        getHolder().effects.remove(this);
-        for(int i = 0; i < this.pubs.size(); i++){
-            this.pubs.get(i).unsubscribe(this);
-        }
-    }
 }

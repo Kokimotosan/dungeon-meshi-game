@@ -23,5 +23,5 @@ public abstract class Subscriber {
      *
      * @param event O evento ({@link Event}) acabado de emitir pelo publicador.
      */
-    public abstract void beNotified(Event event);
+    public abstract void beNotified(BattleState battle, Event event);
 }

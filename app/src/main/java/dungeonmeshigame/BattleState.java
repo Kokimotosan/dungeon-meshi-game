@@ -1,6 +1,8 @@
 package dungeonmeshigame;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
 
 /**
  * Representa o estado atual de um combate no jogo.
@@ -19,6 +21,7 @@ public class BattleState{
     int round;
     int turn;
     Publisher publisher;
+    Scanner scan;
 
     /**
      * Constrói um novo estado de batalha inicializando os participantes e as cartas.
@@ -30,7 +33,7 @@ public class BattleState{
      * @param enemies A lista de inimigos ({@link Enemy}) que enfrentarão o grupo.
      * @param deck O baralho ({@link Deck}) de onde as cartas serão compradas.
      */
-    public BattleState(Party party, ArrayList<Enemy> enemies, Deck deck){
+    public BattleState(Party party, ArrayList<Enemy> enemies, Deck deck, Scanner scan){
         this.party = party;
         this.enemies = enemies;
         this.round = 1;
@@ -40,7 +43,8 @@ public class BattleState{
         this.initiative.addAll(enemies);
         this.deck = deck;
         this.hand = new ArrayList<Card>();
-        this.publisher = new Publisher();
+        this.publisher = new Publisher(this);
+        this.scan = scan;
     }
 
     /**
@@ -107,6 +111,24 @@ public class BattleState{
      */
     public int getTurnLoop(){
         return this.party.members.size() + this.enemies.size();
+    }
+
+
+    public void askForDiscard(int ammount){
+        if(ammount == 0){
+            return;
+        }
+        
+        System.out.println("Você tem que descartar " + ammount + " cartas da sua mão. Escolha uma para descartar:");
+        for(int i = 0; i < this.hand.size(); i++){
+            System.out.println("(" + (i+1) + ") " + this.hand.get(i).getName());
+        }
+        int choice = scan.nextInt();
+        if(choice - 1 <= this.hand.size()){
+            this.hand.get(choice).discard(this);
+            askForDiscard(ammount - 1);
+        }
+
     }
 
     /**

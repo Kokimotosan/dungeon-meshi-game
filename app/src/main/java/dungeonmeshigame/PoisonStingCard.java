@@ -1,19 +1,16 @@
 package dungeonmeshigame;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Representa uma carta de ataque que inflige Dano base e aplica um estado de Veneno.
  */
-public class PoisonCard extends Card{
+public class PoisonStingCard extends SwordCard{
     int poison_power;
-    int damage;
     
-    public PoisonCard(String name, int power, int damage, int cost){
-        super(name, cost);
+    public PoisonStingCard(String name, int power, int damage, int cost){
+        super(name, damage, cost);
         this.poison_power = power;
-        this.damage = damage;
    }
 
     /**
@@ -38,22 +35,6 @@ public class PoisonCard extends Card{
         return true;
     }
 
-    /**
-     * Calcula eventuais modificadores de dano causados por efeitos de aumento de Força.
-     * * @param battle O estado da batalha (para identificar quem tem o turno atual).
-     * @return O valor extra a adicionar ao dano base da carta.
-     */
-    public int getDamageModifiers(BattleState battle){
-        int mod = 0;
-        Character current = battle.getTurnCharacter();
-        for(int i = 0; i < current.effects.size(); i++){
-            if(current.effects.get(i) instanceof StrenghtEffect eff){
-                mod += eff.getPower();
-            }
-        }
-        return mod;
-    }
-
     public void printUseLog(){
         System.out.println(this.getUseLog());
     }
@@ -65,33 +46,4 @@ public class PoisonCard extends Card{
         System.out.println("|Aflige o alvo com Veneno (" + this.poison_power + ")");
         System.out.println("|===== " + "-".repeat(this.getName().length()) + " =====|");
     }
-
-    /**
-     * Pede ao jogador via terminal que selecione o alvo inimigo onde pretende usar o ataque.
-     */
-    public ArrayList<Character> askForTarget(BattleState battle, Scanner scan){
-        ArrayList<Character> aux = new ArrayList<Character>();
-        for(int i = 0; i < battle.enemies.size(); i++){
-            if(battle.enemies.get(i).isAlive()){
-                aux.add(battle.enemies.get(i));
-            }
-        }
-        if(aux.size() == 0){
-            System.out.println("Não há nenhum alvo válido.");
-            return aux;
-        }
-        System.out.println("Escolha um alvo:");
-        for(int i = 0; i < aux.size(); i++){
-            System.out.println("(" + (i+1) + ") " + aux.get(i).name);
-        }
-        int choice = scan.nextInt();
-        if (choice >= 1 && choice <= aux.size()){
-            ArrayList<Character> return_list = new ArrayList<Character>();
-            return_list.add(aux.get(choice-1));
-            return return_list;
-        } else {
-            System.out.println("Escolha inválida!");
-            return this.askForTarget(battle, scan);
-        }
-    }    
 }

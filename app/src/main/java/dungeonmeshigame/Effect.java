@@ -34,14 +34,12 @@ public abstract class Effect extends Subscriber{
      * Método invocado pelo sistema de notificação quando um evento ocorre.
      * Aciona a aplicação prática do efeito.
      */
-    public void beNotified(){
-        this.apply();
-    }
+    public abstract void beNotified(BattleState battle, Event event);
 
     /**
      * Aplica a mecânica específica do efeito no personagem (a ser implementado nas subclasses).
      */
-    public abstract void apply();
+    public abstract void apply(BattleState battle);
 
     /**
      * Tenta juntar o efeito com um efeito igual já existente no alvo, 
@@ -50,6 +48,22 @@ public abstract class Effect extends Subscriber{
      */
     public abstract Effect mergeEffects();
 
+
+    /**
+     * Remove este efeito  do personagem e limpa as subscrições.
+     * <p>
+     * O efeito é retirado da lista de efeitos ativos do personagem e 
+     * cancela a sua inscrição em todos os publicadores de eventos, para que 
+     * deixe de receber notificações de passagem de turno.
+     * </p>
+     */
+    public void unnapply(){
+        getHolder().effects.remove(this);
+        for(int i = 0; i < this.pubs.size(); i++){
+            this.pubs.get(i).unsubscribe(this);
+        }
+    }
+    
     /**
      * Devolve a representação textual do efeito e a sua duração.
      * * @return String formatada (ex: "Veneno (3)").

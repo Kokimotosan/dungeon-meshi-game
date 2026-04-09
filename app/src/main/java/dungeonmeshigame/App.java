@@ -71,7 +71,7 @@ public class App {
 
         Card strenght_card = new StrenghtCard("Força",  3, 1, 1);
         deck.cards.add(strenght_card);
-        Card poison_sting = new PoisonCard("Ferrão de Escorpião", 2, 1, 1);
+        Card poison_sting = new PoisonStingCard("Ferrão de Escorpião", 2, 1, 1);
         deck.cards.add(poison_sting);
         for(int n = 0; n < 4; n++){
             Card new_card = new SwordCard("Espada", 3, 1);
@@ -84,9 +84,12 @@ public class App {
 
         deck.shuffleDeck();
         
-        BattleState currentBattle = new BattleState(party, enemies, deck);
-        Publisher battleFlow = new Publisher();
+        BattleState currentBattle = new BattleState(party, enemies, deck, input);
+        Publisher battleFlow = new Publisher(currentBattle);
         currentBattle.publisher = battleFlow;
+
+        ParalysisEffect paralyz = new ParalysisEffect("Paralise", Laios, 1);
+        Laios.addEffect(battleFlow, paralyz);
         
         battleLoop(currentBattle);
     }
@@ -137,6 +140,7 @@ public class App {
                             enemy.announceIntentions(battle);
                     System.out.println("\n" + "===== Turno de " + currentCharacter.name + " =====");
                     battle.party.printEnergy();
+                    battle.publisher.notifySubs(Event.BEFORE_HERO_ACTION);
                     System.out.println("Escolha uma ação:");
                     for (int i = 0; i < battle.hand.size(); i++)
                         System.out.println("(" + (i + 1) + ")" + " " + battle.hand.get(i).getName());

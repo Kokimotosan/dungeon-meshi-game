@@ -9,6 +9,7 @@ package dungeonmeshigame;
  */
 public enum Event {
     START_HERO_TURN,
+    BEFORE_HERO_ACTION,
     END_HERO_TURN,
     START_ENEMY_TURN,
     END_ENEMY_TURN,

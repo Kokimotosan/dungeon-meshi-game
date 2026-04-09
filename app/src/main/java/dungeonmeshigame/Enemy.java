@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public abstract class Enemy extends Character{
     private String actionLog;
     private int damage;
+    private int next_attack;
     private ArrayList<Character> targets;
 
     /**
@@ -54,4 +55,7 @@ public abstract class Enemy extends Character{
 
     public int getDamage() { return damage; }
     public void setDamage(int damage) { this.damage = damage; }
+
+    public int getNextAttack() { return next_attack; }
+    public void setNextAttack(int attack) { this.next_attack = attack; }
 }
