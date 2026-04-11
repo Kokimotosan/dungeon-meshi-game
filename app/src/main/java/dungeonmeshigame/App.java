@@ -3,13 +3,35 @@ package dungeonmeshigame;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * A classe principal responsável por inicializar e executar o jogo Dungeon Meshi.
+ * <p>
+ * Esta classe atua como o motor do jogo em modo texto, configurando o estado
+ * inicial da partida (grupo de heróis, inimigos, deck de cartas) e gerenciando
+ * o laço principal de batalha (turnos, ações, verificação de vitória/derrota).
+ * </p>
+ * * @author [Julio da Silva Telles RA:281275] e [Andre Storti RA:294852]
+ * @version 1.4
+ */
 public class App {
-    // Funções de uso auxiliar
+    
     private static final Scanner input = new Scanner(System.in);
+
     public static int receiveInput(){
         return input.nextInt();
     }
 
+    public static void delayPrint(int ms){
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }     
+    }
+
+    /**
+     * Limpa a tela do terminal do jogador para manter a interface organizada.
+     */
     public static void clearScreen() {
         try {
             final String os = System.getProperty("os.name");
@@ -24,6 +46,16 @@ public class App {
         }
     }
     
+    /**
+     * Ponto de entrada principal do programa.
+     * <p>
+     * Este método inicializa o herói(s), cria os inimigos,
+     * constrói e embaralha o deck inicial de cartas,
+     * e inicia a máquina de estados da batalha.
+     * </p>
+     * * @param args (não utilizado)
+     * @throws Exception Caso ocorra algum erro durante a execução dos processos do sistema.
+     */
     public static void main(String[] args) throws Exception {
         Party party = new Party();
         Hero Laios = new Hero("Laios", 20, 20, 0, 3);
@@ -31,36 +63,67 @@ public class App {
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
         Enemy mush1 = new WalkingMushroom(1);
+        Enemy mush2 = new WalkingMushroom(2);
         Enemy scorp1 = new HugeScorpion(1);
         enemies.add(mush1);
+        enemies.add(mush2);
         enemies.add(scorp1);
 
         Deck deck = new Deck();
 
+        for(int n = 0; n < 2; n++){
+            Card strenght_card = new StrenghtCard("Força",  3, 1, 1);
+            deck.cards.add(strenght_card);
 
-        Card strenght_card = new StrenghtCard("Força",  3, 1, 1);
-        deck.cards.add(strenght_card);
-        Card poison_vial = new PoisonCard("Ferrão de Escorpião", 2, 1, 1);
-        deck.cards.add(poison_vial);
-        for(int n = 0; n < 4; n++){
-            Card new_card = new DamageCard("Espada", 3, 1);
-            deck.cards.add(new_card);
+            Card axe = new SwordCard("Machado do Senshi", 6, 2);
+            deck.cards.add(axe);
+
+            Card shield_card = new ShieldCard("Panela inoxídavel do Senshi", 7, 2);
+            deck.cards.add(shield_card);
+
+            Card mandragora = new pottedMandragoraCard("Mandrágora no vaso", 4, 3, 1);
+            deck.cards.add(mandragora);
+
+            Card poison_sting = new PoisonStingCard("Ferrão de Escorpião", 2, 1, 1);
+            deck.cards.add(poison_sting);
+
+            Card poison_flask = new EffectCard("Frasco de veneno", new PoisonEffect("Veneno", null, 3), 1);
+            deck.cards.add(poison_flask);
         }
+
+        Card poison_antidote = new EffectCard("Antidoto de escorpião", new PoisonEffect("Veneno", null, -3), 1);
+        deck.cards.add(poison_antidote);
+
+
         for(int n = 0; n < 4; n++){
-            Card new_card = new ShieldCard("Escudo Pequeno", 3, 1);
-            deck.cards.add(new_card);
+            Card sword_card = new SwordCard("Espada", 3, 1);
+            deck.cards.add(sword_card);
+
+            Card shield_card = new ShieldCard("Escudo Pequeno", 3, 1);
+            deck.cards.add(shield_card);
         }
 
         deck.shuffleDeck();
         
-        BattleState currentBattle = new BattleState(party, enemies, deck);
-        Publisher battleFlow = new Publisher();
+        BattleState currentBattle = new BattleState(party, enemies, deck, input);
+        Publisher battleFlow = new Publisher(currentBattle);
         currentBattle.publisher = battleFlow;
-        
+
         battleLoop(currentBattle);
     }
 
-public static void battleLoop(BattleState battle){
+    /**
+     * Controla o fluxo central do combate até que o jogo termine.
+     * <p>
+     * O método gerencia a alternância de turnos entre os heróis e os inimigos. 
+     * Durante o turno do herói, exibe as opções de cartas, gerencia a energia,
+     * permite o uso de itens/ataques/cartas e notifica eventos do jogo. 
+     * Durante o turno dos inimigos, automatiza seus ataques.
+     * Ao final, verifica e exibe a mensagem de vitória ou derrota.
+     * </p>
+     * * @param battle O objeto {@link BattleState} contendo as informações e o estado atual da batalha.
+     */
+    public static void battleLoop(BattleState battle){
 
         Character currentCharacter;
 
@@ -70,6 +133,9 @@ public static void battleLoop(BattleState battle){
             if(currentCharacter instanceof Hero){
                 if(battle.turn == 0){ // Turno do primeiro herói
                     battle.publisher.notifySubs(Event.START_HERO_TURN);
+                    for(Enemy enemy : battle.enemies){
+                        enemy.setIntentions(battle);
+                    }
                     battle.discardHand();
                     battle.party.energy = battle.party.getMaxEnergy();
                     battle.deck.draw(battle.hand, 5);
@@ -95,6 +161,7 @@ public static void battleLoop(BattleState battle){
                             enemy.announceIntentions(battle);
                     System.out.println("\n" + "===== Turno de " + currentCharacter.name + " =====");
                     battle.party.printEnergy();
+                    battle.publisher.notifySubs(Event.BEFORE_HERO_ACTION);
                     System.out.println("Escolha uma ação:");
                     for (int i = 0; i < battle.hand.size(); i++)
                         System.out.println("(" + (i + 1) + ")" + " " + battle.hand.get(i).getName());
@@ -152,5 +219,4 @@ public static void battleLoop(BattleState battle){
             System.out.println("Sua equipe foi derrotada...");
         }
     }
- }
-
+}

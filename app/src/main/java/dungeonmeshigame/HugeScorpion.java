@@ -3,27 +3,51 @@ package dungeonmeshigame;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Representa um inimigo específico: "Escorpião Gigante".
+ * <p>
+
+ */
 public class HugeScorpion extends Enemy{
-    public int next_attack;
 
     public HugeScorpion(int index){
         super("Escorpião Gigante " + index, 12, 12, 0,5, new ArrayList<Character>());
     }
 
-    public void announceIntentions(BattleState battle){
+
+    public void setIntentions(BattleState battle){
         Random rng = new Random();
-        this.next_attack = rng.nextInt(2);
+        this.setNextAttack(rng.nextInt(2));
         int choice = rng.nextInt(battle.party.members.size());
         Hero target = battle.party.members.get(choice);
-        System.out.println(this.name + " irá atacar " + target.name);
+        ArrayList<Character> target_list = new ArrayList<Character>();
+        target_list.add(target);
+        this.setTargets(target_list);
+    }
+
+    /**
+     * Escolhe aleatoriamente se irá fazer um ataque normal ou envenenar.
+     * Define aleatoriamente também o alvo entre os heróis vivos.
+     */
+    public void announceIntentions(BattleState battle){
+        Character target = this.getTargets().get(0);
+        if(getNextAttack() == 0){
+            System.out.println(this.name + " irá atacar " + target.name + " causando 5 de dano.");
+        } else {
+            System.out.println(this.name + " irá picar " + target.name + " causando 1 de dano e Veneno (3)");
+        }
         ArrayList<Character> targets = new ArrayList<Character>();
         targets.add(target);
         setTargets(targets);
         return;
     }
 
+    /**
+     * Executa a ação do turno (causa o dano previamente anunciado e/ou aplica veneno) e 
+     * constrói a mensagem de registo (actionLog) para exibir ao jogador.
+     */
     public void takeTurn(BattleState battle){
-        if(this.next_attack == 0){
+        if(this.getNextAttack() == 0){
             if (getTargets().isEmpty())
                 return; 
             Hero target = (Hero)getTargets().get(0);
@@ -36,12 +60,12 @@ public class HugeScorpion extends Enemy{
             }
         }
 
-        if(this.next_attack == 1){
+        if(this.getNextAttack() == 1){
             if (getTargets().isEmpty())
                 return; 
             Hero target = (Hero)getTargets().get(0);
             target.takeDamage(1);
-            PoisonEffect poison = new PoisonEffect(target, 3);
+            PoisonEffect poison = new PoisonEffect("Veneno", target, 3);
             target.addEffect(battle.publisher, poison);
             this.setActionLog(this.name + " picou " + target.name + "!");
             if(target.isAlive()){
@@ -52,6 +76,9 @@ public class HugeScorpion extends Enemy{
         }
     }
 
+    /**
+     * Imprime no terminal as ações feitas pelo escorpião no seu turno.
+     */
     public void printActionLog(){
         System.out.println(this.getActionLog());
     }

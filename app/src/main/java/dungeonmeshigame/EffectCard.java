@@ -6,14 +6,12 @@ import java.util.Scanner;
 /**
  * Representa uma carta de buff que aumenta a força de um aliado.
  */
-public class StrenghtCard extends Card{
-    int power;
-    int duration;
+public class EffectCard extends Card{
+    Effect effect;
     
-    public StrenghtCard(String name, int power, int duration, int cost){
+    public EffectCard(String name, Effect effect, int cost){
         super(name, cost);
-        this.power = power;
-        this.duration = duration;
+        this.effect = effect;
     }
 
     /**
@@ -28,12 +26,12 @@ public class StrenghtCard extends Card{
             this.setUseLog("Você não tem energia para usar [" + this.getName() + "]");
             return false;
         }
-        StrenghtEffect str_effect = new StrenghtEffect("Força", target.get(0), this.power, this.duration);
-        target.get(0).addEffect(battle.publisher, str_effect);
+        this.effect.setHolder(target.get(0));
+        target.get(0).addEffect(battle.publisher, this.effect);
         battle.hand.remove(this);
         battle.deck.discard_pile.add(this);
         battle.party.energy -= this.getCost();
-        this.setUseLog("Usou [" + this.getName() + "]: " + target.get(0).name + " foi afligido com " + str_effect.getString());
+        this.setUseLog("Usou [" + this.getName() + "]: " + target.get(0).name + " foi afligido com " + this.effect.getString());
         return true;
     }
 
@@ -50,7 +48,7 @@ public class StrenghtCard extends Card{
     public void printCard(){
         System.out.println("|===== " + this.getName() + " =====|");
         System.out.println("|" + this.getCost() + " custo de energia");
-        System.out.println("|Aflige um aliado com Força (" + this.power + ") por " + this.duration + " rodada(s).");
+        System.out.println("|Aplica " + this.effect.getString() + " a um aliado ou oponente");
         System.out.println("|===== " + "-".repeat(this.getName().length()) + " =====|");
     }
 
@@ -67,13 +65,18 @@ public class StrenghtCard extends Card{
      */
     public ArrayList<Character> askForTarget(BattleState battle, Scanner scan){
         System.out.println("Escolha uma alvo:");
-        for(int i = 0; i < battle.party.members.size(); i++){
-            System.out.println("(" + (i+1) + ") " + battle.party.members.get(i).name);
+
+        ArrayList<Character> aux = new ArrayList<Character>();
+        aux.addAll(battle.party.members);
+        aux.addAll(battle.aliveEnemies());
+
+        for(int i = 0; i < aux.size(); i++){
+            System.out.println("(" + (i+1) + ") " + aux.get(i).name);
         }
         int choice = scan.nextInt();
-        if (choice >= 1 && choice <= battle.party.members.size()){
+        if (choice >= 1 && choice <= aux.size()){
             ArrayList<Character> return_list = new ArrayList<Character>();
-            return_list.add(battle.party.members.get(choice-1));
+            return_list.add(aux.get(choice-1));
             return return_list;
         } else {
             System.out.println("Escolha inválida!");

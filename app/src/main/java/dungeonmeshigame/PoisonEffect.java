@@ -2,19 +2,40 @@ package dungeonmeshigame;
 
 import java.util.ArrayList;
 
+/**
+ * Representa o efeito de estado negativo "Veneno" (Poison).
+ * <p>
+ * Este efeito causa dano direto à vida do personagem (ignorando escudos) 
+ * no final de cada turno. O veneno tem a capacidade de acumular (stack): 
+ * se um alvo já estiver envenenado e receber mais veneno, as durações e 
+ * o dano são somados num único efeito mais forte.
+ * </p>
+ */
 public class PoisonEffect extends Effect{
-
-
-    public PoisonEffect(Character holder, int power){
-        super("Veneno", holder, power);
+    /**
+     * Construtor do efeito de Veneno.
+     * * @param holder O personagem (Herói ou Inimigo) que sofrerá o efeito do veneno.
+     * @param stacks A duração em turnos do veneno (também usada como base para a potência/dano).
+     */
+    public PoisonEffect(String name, Character holder, int stacks){
+        super(name, holder, 0, stacks);
     }
 
+    /**
+     * Combina vários efeitos de veneno aplicados no mesmo alvo num só.
+     * <p>
+     * Se o personagem já tiver efeitos de Veneno ativos, este método soma
+     * as durações (stacks), remove os efeitos antigos da lista do personagem
+     * e cria um novo efeito unificado com a nova potência e duração somadas.
+     * </p>
+     * * @return O novo efeito de Veneno consolidado após a junção.
+     */
     public Effect mergeEffects(){
         int stacks = 0;
         ArrayList<PoisonEffect> merged = new ArrayList<PoisonEffect>();
         for(int i = 0; i < this.getHolder().getEffects().size(); i++){
             if(this.getHolder().effects.get(i) instanceof PoisonEffect currentPoisonEffect){
-                stacks += currentPoisonEffect.getStacks();
+                stacks += currentPoisonEffect.getPower();
                 merged.add(currentPoisonEffect);
             }
         }
@@ -23,26 +44,41 @@ public class PoisonEffect extends Effect{
             merged.get(i).unnapply();
         }
 
-        PoisonEffect neweffect = new PoisonEffect(getHolder(), stacks);
-        getHolder().effects.add(neweffect);
+        PoisonEffect neweffect = new PoisonEffect("Veneno", getHolder(), stacks);
+        
+        if(stacks > 0){
+            getHolder().effects.add(neweffect);
+        }
+
         return neweffect;
     }
 
-    public void beNotified(Event event){
+    /**
+     * Recebe notificações do sistema de eventos do jogo.
+     * <p>
+     * O veneno é ativado (causando dano) especificamente no evento de 
+     * fim de turno do herói ({@link Event#END_HERO_TURN}).
+     * </p>
+     * * @param event O evento atual emitido pelo publicador do jogo.
+     */
+    public void beNotified(BattleState battle, Event event){
         if(event == Event.END_HERO_TURN){
-            this.apply();
+            this.apply(battle);
         }
     }
 
-    public void apply(){
-        getHolder().health -= getStacks();
-        this.setStacks(this.getStacks() - 1);
+    /**
+     * Aplica o efeito negativo diretamente ao alvo.
+     * <p>
+     * Subtrai o valor da potência (dano) diretamente dos pontos de vida (health) 
+     * do detentor do efeito. A cada vez que é aplicado, a potência e a duração 
+     * diminuem em 1. Se a duração chegar a 0, o efeito é dissipado.
+     * </p>
+     */
+    public void apply(BattleState battle){
+        getHolder().health -= getPower();
+        this.setPower(this.getPower() - 1);
+        if (this.getPower() == 0)
+            unnapply();
     }    
-
-    public void unnapply(){
-        getHolder().effects.remove(this);
-        for(int i = 0; i < this.pubs.size(); i++){
-            this.pubs.get(i).unsubscribe(this);
-        }
-    }
 }
