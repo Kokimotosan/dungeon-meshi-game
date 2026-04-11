@@ -78,6 +78,9 @@ public class App {
             Card axe = new SwordCard("Machado do Senshi", 6, 2);
             deck.cards.add(axe);
 
+            Card shield_card = new ShieldCard("Panela inoxídavel do Senshi", 7, 2);
+            deck.cards.add(shield_card);
+
             Card mandragora = new pottedMandragoraCard("Mandrágora no vaso", 4, 3, 1);
             deck.cards.add(mandragora);
 
