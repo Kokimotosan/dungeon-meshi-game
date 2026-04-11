@@ -47,14 +47,36 @@ Quando você esgota sua energia, seu turno acaba, e os inimigos vivos imediatame
 
 A batalha continua até que ou você seja derrotado, ou derrote todos os inimigos.
 
+## Cartas
+
+Há 9 tipos de cartas distintas atualmente no jogo:
+
+**1. Espada**: Causa 3 de dano, custa 1 de energia.
+
+**2. Machado do Senshi**: Causa 6 de dano, custa 2 de energia
+
+**3. Escudo pequeno**: Concede 3 de escudo ao usuário. Custa 1 de de energia.
+
+**4. Panela inoxídavel do Senshi**: Concede 7 de escudo ao usuário. Custa 2 de energia.
+
+**5. Ferrão do escorpião**: Causa 1 de dano. Aplica Veneno (2) ao alvo. Custa 1 de energia.
+
+**6. Antidoto de escorpião**: Aplica Veneno (-3) a um alido ou oponente (Isto é, cura 3 acumulos de veneno.)
+
+**7. Frasco de Veneno**: Aplica Veneno (3) a um aliado ou oponente.
+
+**8. Mandrágora no Vaso**: Causa 3 de dano a todos os inimigos, mas causa 3 de dano ao usuário. Custa 1 de energia.
+
+**9. Força**: Aplica Força (3) em um aliado por um turno. Custa 1 de energia.
+
 ## Efeitos
 
 Há alguns efeitos que podem ser aplicados em jogo.
 
-**Veneno**: No final do turno do herói, o personagem com este efeito tomará dano equivalente a quantidade de acúmulos, e se curará de um acúmulo.
+**1. Veneno**: No final do turno do herói, o personagem com este efeito tomará dano equivalente a quantidade de acúmulos, e se curará de um acúmulo.
 
-**Força**: Cartas que dão dano utilizadas por este personagem recebem um aumento de dano.
+**2. Força**: Cartas que dão dano utilizadas por este personagem recebem um aumento de dano.
 
-**Paralise**: No inicio do turno do herói, você deve descartar cartas equivalente ao número de acúmulos.
+**3. Paralise**: No inicio do turno do herói, você deve descartar cartas equivalente ao número de acúmulos.
 
 
