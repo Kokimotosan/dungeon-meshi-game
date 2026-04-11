@@ -16,10 +16,9 @@ public class PoisonEffect extends Effect{
      * Construtor do efeito de Veneno.
      * * @param holder O personagem (Herói ou Inimigo) que sofrerá o efeito do veneno.
      * @param stacks A duração em turnos do veneno (também usada como base para a potência/dano).
-     * @param damage A quantidade de dano inicial que o veneno causará por turno.
      */
-    public PoisonEffect(Character holder, int stacks, int damage){
-        super("Veneno", holder, stacks, damage);
+    public PoisonEffect(String name, Character holder, int stacks){
+        super(name, holder, 0, stacks);
     }
 
     /**
@@ -36,7 +35,7 @@ public class PoisonEffect extends Effect{
         ArrayList<PoisonEffect> merged = new ArrayList<PoisonEffect>();
         for(int i = 0; i < this.getHolder().getEffects().size(); i++){
             if(this.getHolder().effects.get(i) instanceof PoisonEffect currentPoisonEffect){
-                stacks += currentPoisonEffect.getDuration();
+                stacks += currentPoisonEffect.getPower();
                 merged.add(currentPoisonEffect);
             }
         }
@@ -45,9 +44,12 @@ public class PoisonEffect extends Effect{
             merged.get(i).unnapply();
         }
 
-        PoisonEffect neweffect = new PoisonEffect(getHolder(), stacks, stacks);
+        PoisonEffect neweffect = new PoisonEffect("Veneno", getHolder(), stacks);
         
-        getHolder().effects.add(neweffect);
+        if(stacks > 0){
+            getHolder().effects.add(neweffect);
+        }
+
         return neweffect;
     }
 
@@ -76,8 +78,7 @@ public class PoisonEffect extends Effect{
     public void apply(BattleState battle){
         getHolder().health -= getPower();
         this.setPower(this.getPower() - 1);
-        this.setDuration(getDuration() - 1);
-        if (this.getDuration() == 0)
+        if (this.getPower() == 0)
             unnapply();
     }    
 }

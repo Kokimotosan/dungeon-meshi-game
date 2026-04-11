@@ -25,7 +25,7 @@ public class PoisonStingCard extends SwordCard{
             this.setUseLog("Você não tem energia para usar [" + this.getName() + "]");
             return false;
         }
-        PoisonEffect psn_effect = new PoisonEffect(target.get(0), this.poison_power ,this.poison_power);
+        PoisonEffect psn_effect = new PoisonEffect("Veneno", target.get(0), this.poison_power);
         target.get(0).addEffect(battle.publisher, psn_effect);
         target.get(0).takeDamage(this.damage + getDamageModifiers(battle));
         battle.hand.remove(this);

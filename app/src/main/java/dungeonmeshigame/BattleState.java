@@ -83,11 +83,12 @@ public class BattleState{
     /**
      * Imprime no console a lista de inimigos disponíveis na batalha com seus respectivos
      * índices, para que o jogador possa escolher um alvo.
-     * * @param enemies A lista de inimigos (nota: o método utiliza a lista interna da classe para a exibição).
      */
-    public void selectEnemies(ArrayList<Enemy> enemies){
+    public ArrayList<Enemy> aliveEnemies(){
+        ArrayList<Enemy> array = new ArrayList<Enemy>();
         for(int i = 0; i < this.enemies.size(); i++)
-            System.out.println("("+ (i + 1) + ")" + " " + this.enemies.get(i).name + " " + this.enemies.get(i).healthString());
+            if(this.enemies.get(i).isAlive()) { array.add(this.enemies.get(i)); }
+        return array;
     }
 
     /**
@@ -125,7 +126,7 @@ public class BattleState{
         }
         int choice = scan.nextInt();
         if(choice - 1 <= this.hand.size()){
-            this.hand.get(choice).discard(this);
+            this.hand.get(choice - 1).discard(this);
             askForDiscard(ammount - 1);
         }
 

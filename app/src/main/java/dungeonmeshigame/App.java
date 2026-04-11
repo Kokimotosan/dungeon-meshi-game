@@ -63,23 +63,41 @@ public class App {
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
         Enemy mush1 = new WalkingMushroom(1);
+        Enemy mush2 = new WalkingMushroom(2);
         Enemy scorp1 = new HugeScorpion(1);
         enemies.add(mush1);
+        enemies.add(mush2);
         enemies.add(scorp1);
 
         Deck deck = new Deck();
 
-        Card strenght_card = new StrenghtCard("Força",  3, 1, 1);
-        deck.cards.add(strenght_card);
-        Card poison_sting = new PoisonStingCard("Ferrão de Escorpião", 2, 1, 1);
-        deck.cards.add(poison_sting);
-        for(int n = 0; n < 4; n++){
-            Card new_card = new SwordCard("Espada", 3, 1);
-            deck.cards.add(new_card);
+        for(int n = 0; n < 2; n++){
+            Card strenght_card = new StrenghtCard("Força",  3, 1, 1);
+            deck.cards.add(strenght_card);
+
+            Card axe = new SwordCard("Machado do Senshi", 6, 2);
+            deck.cards.add(axe);
+
+            Card mandragora = new pottedMandragoraCard("Mandrágora no vaso", 4, 3, 1);
+            deck.cards.add(mandragora);
+
+            Card poison_sting = new PoisonStingCard("Ferrão de Escorpião", 2, 1, 1);
+            deck.cards.add(poison_sting);
+
+            Card poison_flask = new EffectCard("Frasco de veneno", new PoisonEffect("Veneno", null, 3), 1);
+            deck.cards.add(poison_flask);
         }
+
+        Card poison_antidote = new EffectCard("Antidoto de escorpião", new PoisonEffect("Veneno", null, -3), 1);
+        deck.cards.add(poison_antidote);
+
+
         for(int n = 0; n < 4; n++){
-            Card new_card = new ShieldCard("Escudo Pequeno", 3, 1);
-            deck.cards.add(new_card);
+            Card sword_card = new SwordCard("Espada", 3, 1);
+            deck.cards.add(sword_card);
+
+            Card shield_card = new ShieldCard("Escudo Pequeno", 3, 1);
+            deck.cards.add(shield_card);
         }
 
         deck.shuffleDeck();
@@ -88,9 +106,6 @@ public class App {
         Publisher battleFlow = new Publisher(currentBattle);
         currentBattle.publisher = battleFlow;
 
-        ParalysisEffect paralyz = new ParalysisEffect("Paralise", Laios, 1);
-        Laios.addEffect(battleFlow, paralyz);
-        
         battleLoop(currentBattle);
     }
 

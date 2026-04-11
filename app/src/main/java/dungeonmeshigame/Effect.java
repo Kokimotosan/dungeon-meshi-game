@@ -69,7 +69,12 @@ public abstract class Effect extends Subscriber{
      * * @return String formatada (ex: "Veneno (3)").
      */
     public String getString(){
-        return (this.name + " (" + this.duration + ")");
+        String s;
+        s = (this.name + " (" + this.power + ")");
+        if(duration > 0){
+            s += " por " + this.duration + " turnos";
+        }
+        return s;
     }
 
     public int getDuration() { return duration; }
