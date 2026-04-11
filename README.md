@@ -7,10 +7,9 @@ Por enquanto, o jogo tem apenas uma batalha simples com dois inimigos, um herói
 
 ## Compilação
 
-O jogo pode ser compilado seguindo as instruções que estão no doc da tarefa 01:
+O jogo pode ser compilado rodando o comando do gradle a partir da root do diretório:
 ```
-javac -d bin $(find src -name "*.java")
-java -cp bin App
+./gradlew run
 ```
 ## Jogabilidade
 
@@ -47,4 +46,15 @@ E novamente digita um número para escolher sua ação.
 Quando você esgota sua energia, seu turno acaba, e os inimigos vivos imediatamente te atacam.
 
 A batalha continua até que ou você seja derrotado, ou derrote todos os inimigos.
+
+## Efeitos
+
+Há alguns efeitos que podem ser aplicados em jogo.
+
+**Veneno**: No final do turno do herói, o personagem com este efeito tomará dano equivalente a quantidade de acúmulos, e se curará de um acúmulo.
+
+**Força**: Cartas que dão dano utilizadas por este personagem recebem um aumento de dano.
+
+**Paralise**: No inicio do turno do herói, você deve descartar cartas equivalente ao número de acúmulos.
+
 
