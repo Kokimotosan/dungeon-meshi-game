@@ -70,6 +70,7 @@ public class HugeScorpion extends Enemy{
             this.setActionLog(this.name + " picou " + target.name + "!");
             if(target.isAlive()){
                 this.setActionLog(this.getActionLog() + "\n" + target.name + " tomou 1 de dano.");
+                this.setActionLog(this.getActionLog() + "\n" + target.name + " foi afligido com Veneno (3).");
             } else {
                 this.setActionLog(this.getActionLog() + "\n" + target.name + " toma 1 de dano, e desmaia!");
             }

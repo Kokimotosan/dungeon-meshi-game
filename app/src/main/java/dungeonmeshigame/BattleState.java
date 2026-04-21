@@ -3,7 +3,6 @@ package dungeonmeshigame;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 /**
  * Representa o estado atual de um combate no jogo.
  * <p>
@@ -45,6 +44,20 @@ public class BattleState{
         this.hand = new ArrayList<Card>();
         this.publisher = new Publisher(this);
         this.scan = scan;
+    }
+
+    public BattleState(GameState game, BattleRoom room){
+        this.party = game.getParty();
+        this.enemies = room.getEnemies();
+        this.round = 1;
+        this.turn = 0;
+        this.initiative = new ArrayList<Character>();
+        this.initiative.addAll(party.members);
+        this.initiative.addAll(enemies);
+        this.deck = game.getDeck();
+        this.hand = new ArrayList<Card>();
+        this.publisher = new Publisher(this);
+        this.scan = new Scanner(System.in);
     }
 
     /**
@@ -89,6 +102,20 @@ public class BattleState{
         for(int i = 0; i < this.enemies.size(); i++)
             if(this.enemies.get(i).isAlive()) { array.add(this.enemies.get(i)); }
         return array;
+    }
+
+    public boolean isFirstEnemyTurn(){
+        int i = turn - 1;
+        while(initiative.get(i) instanceof Enemy && !(initiative.get(i).isAlive())){
+            i = i - 1;
+        }
+
+        if(initiative.get(i) instanceof Hero){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**

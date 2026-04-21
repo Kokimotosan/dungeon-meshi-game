@@ -44,9 +44,16 @@ public class Deck {
                 Collections.shuffle(this.discard_pile);
                 this.cards = new ArrayDeque<Card>(discard_pile);
                 this.discard_pile.clear();
+                hand.add(this.cards.removeFirst());
             } else{
                 hand.add(this.cards.removeFirst());
             }
         }
+    }
+
+    public void reshuffleAll(){
+        this.cards.addAll(this.discard_pile);
+        this.shuffleDeck();
+        this.discard_pile.clear();
     }
 }

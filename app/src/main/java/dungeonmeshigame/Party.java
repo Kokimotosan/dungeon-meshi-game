@@ -48,4 +48,10 @@ public class Party {
             total += this.members.get(i).energy_mod;
         return total;
     }
+
+    public void wipeEffects(){
+        for(int i = 0; i < this.members.size(); i++){
+            this.members.get(i).getEffects().clear();
+        }
+    }
 }
