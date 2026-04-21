@@ -109,6 +109,11 @@ public class App {
         Publisher battleFlow = new Publisher(currentBattle);
         currentBattle.publisher = battleFlow;
 
+        MapFactory mapGenerator = new MapFactory();
+
+        MapNode mapRoot = mapGenerator.floorOneMap(4);
+        mapRoot.printTree();
+
         battleLoop(currentBattle);
     }
 
