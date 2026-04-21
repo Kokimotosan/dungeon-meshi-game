@@ -3,7 +3,7 @@
 A temática para nosso jogo será o mangá "Dungeon Meshi".
 Resumidamente: Um grupo de aventureiros desce uma masmorra com um sistema ecológico próprio para salvar um de seus companheiros, e fazem suas refeições com os monstros que lá habitam.
 
-Por enquanto, o jogo tem apenas uma batalha simples com dois inimigos, um herói, e duas cartas (infinitamente reutilizáveis)
+Por enquanto, o jogo tem um mapa com batalhas gerado aleatóriamente, 9 cartas, e 2 inimigos distintos.
 
 ## Compilação
 
@@ -12,6 +12,31 @@ O jogo pode ser compilado rodando o comando do gradle a partir da root do diret�
 ./gradlew run
 ```
 ## Jogabilidade
+
+Quando você começa o jogo, você vai ser mostrado o mapa. O mapa é uma árvore, representado desta forma, por exemplo:
+```
+->Sala 0: Sala vazia
+| ->Sala 1: Batalha (6) (->Sala 6: Batalha (2) (->Sala 4: Batalha (12)))
+| | ->Sala 3: Batalha (12) (->Sala 9: Batalha (4))
+| | | ->Sala 4: Batalha (12)
+| | | ->Sala 5: Batalha (8)
+| ->Sala 2: Batalha (16)
+| | ->Sala 6: Batalha (2) (->Sala 4: Batalha (12))
+| | | ->Sala 8: Batalha (12)
+| | | ->Sala 9: Batalha (4)
+| | ->Sala 7: Batalha (12)
+| | | ->Sala 10: Batalha (6)
+| | | ->Sala 11: Batalha (4)
+
+Você está na Sala 0. Escolha aonde deseja ir:
+(1) Sala 1: Batalha (6) (->Sala 6: Batalha (2) (->Sala 4: Batalha (12)))
+(2) Sala 2: Batalha (16)
+```
+Note que algumas salas tem parênteses com outras salas indicadas, isso significa que esta sala tem um atalho!
+
+Você pode ir de uma sala para um de seus filhos, ou para a sala ao qual o atalho leva, se ela tiver um.
+
+Quando você escolher uma sala, você iniciará uma batalha (todas as salas são batalhas, por enquanto). A batalha começa no seu turno.
 
 No seu turno, você é mostrado o estado da batalha e as suas ações possiveis, além da sua energia. como mostrado:
 ```
@@ -43,9 +68,11 @@ Nesse momento, você pode digitar um número para escolher sua ação. Em seguid
 ```
 E novamente digita um número para escolher sua ação.
 
-Quando você esgota sua energia, seu turno acaba, e os inimigos vivos imediatamente te atacam.
+Quando você esgota sua energia, você deve passar o seu turno, e os inimigos vivos imediatamente te atacam.
 
 A batalha continua até que ou você seja derrotado, ou derrote todos os inimigos.
+
+Quando a batalha terminar, você retorna ao mapa e escolhe a próxima sala para continuar.
 
 ## Cartas
 
