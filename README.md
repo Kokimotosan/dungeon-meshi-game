@@ -11,6 +11,10 @@ O jogo pode ser compilado rodando o comando do gradle a partir da root do diret�
 ```
 ./gradlew run
 ```
+## Documentação e Teste Unitários
+
+A documentação em Javadoc e os Testes Unitários do JUnit foram feitos com auxilio de ferramentas de IA generativa, sendo o Gemini do Google utilizado para gerar a base da documentação, e o ChatGPT da OpenAI utilizado para os Testes Unitários.
+
 ## Jogabilidade
 
 Quando você começa o jogo, você vai ser mostrado o mapa. O mapa é uma árvore, representado desta forma, por exemplo:
