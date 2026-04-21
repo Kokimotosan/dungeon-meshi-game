@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * </p>
 
  */
-public class pottedMandragoraCard extends SwordCard {
+public class PottedMandragoraCard extends SwordCard {
     int self_damage;
 
     /**
@@ -22,7 +22,7 @@ public class pottedMandragoraCard extends SwordCard {
      * @param damage O valor base de dano da carta.
      * @param cost O custo de energia necessário para jogar a carta.
      */
-    public pottedMandragoraCard(String name, int damage, int self_damage, int cost){
+    public PottedMandragoraCard(String name, int damage, int self_damage, int cost){
         super(name, damage, cost);
         this.self_damage = self_damage;
     }
