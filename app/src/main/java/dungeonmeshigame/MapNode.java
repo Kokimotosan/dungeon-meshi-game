@@ -8,29 +8,37 @@ public class MapNode {
     private MapNode second_child;
     private MapNode shortcut;
     private int index;
+    private int depth;
+    private Room room;
 
     public MapNode(int index){
         this.parent = null;
         this.first_child = null;
         this.second_child = null;
         this.shortcut = null;
+        this.depth = 0;
         this.index = index;
+        this.room = null;
     }
 
-    public MapNode(int index, MapNode parent){
+    public MapNode(int index, int depth, MapNode parent){
         this.parent = parent;
         this.first_child = null;
         this.second_child = null;
         this.shortcut = null;
+        this.depth = depth;
         this.index = index;
+        this.room = null;
     }
 
-    public MapNode(int index, MapNode parent, MapNode child1, MapNode child2){
+    public MapNode(int index, int depth, MapNode parent, MapNode child1, MapNode child2){
         this.parent = parent;
         this.first_child = child1;
         this.second_child = child2;
         this.shortcut = null;
+        this.depth = depth;
         this.index = index;
+        this.room = null;
     }
 
     public void printTree(){
@@ -60,6 +68,10 @@ public class MapNode {
         return index;
     }
 
+    public int getDepth(){
+        return depth;
+    }
+
     public MapNode getFirst_child() {
         return first_child;
     }
@@ -70,6 +82,10 @@ public class MapNode {
 
     public MapNode getShortcut() {
         return shortcut;
+    }
+
+    public Room getRoom(){
+        return room;
     }
 
     public void setParent(MapNode parent) {
@@ -88,8 +104,16 @@ public class MapNode {
         this.shortcut = shortcut;
     }
 
+        public void setRoom(Room room) {
+        this.room = room;
+    }
+
     public String getString(){
-        return "Sala " + this.index + ": Sala Vazia";
+        String s = "Sala " + this.index + ": " + this.room.getNameString();
+        if(this.getShortcut() != null){
+            s += " (->" + this.getShortcut().getString() + ")";
+        }
+        return s;
     }
     
 }

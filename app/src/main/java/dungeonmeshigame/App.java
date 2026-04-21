@@ -104,17 +104,54 @@ public class App {
         }
 
         deck.shuffleDeck();
-        
-        BattleState currentBattle = new BattleState(party, enemies, deck, input);
-        Publisher battleFlow = new Publisher(currentBattle);
-        currentBattle.publisher = battleFlow;
 
         MapFactory mapGenerator = new MapFactory();
 
-        MapNode mapRoot = mapGenerator.floorOneMap(4);
+        MapNode mapRoot = mapGenerator.floorOneMap(3, 50);
         mapRoot.printTree();
 
-        battleLoop(currentBattle);
+        GameState game = new GameState(party, 0, deck, mapRoot);
+
+        processRoom(game, pickNextRoom(mapRoot, mapRoot));
+    }
+
+    public static void processRoom(GameState game, MapNode current_node){
+        if(current_node.getRoom() instanceof BattleRoom){
+            BattleState currentBattle = new BattleState(game, (BattleRoom) current_node.getRoom());
+            boolean battle_result = battleLoop(currentBattle);
+            if(battle_result == true){
+                MapNode next_room = pickNextRoom(game.getMapRoot(), current_node);
+                processRoom(game, next_room);
+            }
+        }
+    }
+
+    public static MapNode pickNextRoom(MapNode root, MapNode current_node){
+        clearScreen();
+        root.printTree();
+        System.out.println();
+        System.out.println("Você está na Sala " + current_node.getIndex() + ". Escolha aonde deseja ir:");
+        if(current_node.getFirst_child() != null){
+            System.out.println("(1) " + current_node.getFirst_child().getString());
+        }
+        if(current_node.getSecond_child() != null){
+            System.out.println("(2) " + current_node.getSecond_child().getString());
+        }
+        if(current_node.getShortcut() != null){
+            System.out.println("(3) " + current_node.getShortcut().getString());
+        }
+
+        int choice = receiveInput();
+        switch (choice) {
+            case 1:
+                return current_node.getFirst_child();
+            case 2:
+                return current_node.getSecond_child();
+            case 3:
+                return current_node.getShortcut();
+            default:
+                return pickNextRoom(root, current_node);
+        }
     }
 
     /**
@@ -128,9 +165,11 @@ public class App {
      * </p>
      * * @param battle O objeto {@link BattleState} contendo as informações e o estado atual da batalha.
      */
-    public static void battleLoop(BattleState battle){
+    public static boolean battleLoop(BattleState battle){
 
         Character currentCharacter;
+
+        battle.party.wipeEffects();
 
         while(!battle.isOver()){
             currentCharacter = battle.getTurnCharacter();
@@ -220,8 +259,14 @@ public class App {
         }
         if(one_hero_alive){
             System.out.println("Você venceu!");
+            System.out.println("Aperte enter para continuar...");
+            input.nextLine();
+            return true;
         }else{
             System.out.println("Sua equipe foi derrotada...");
+            System.out.println("Aperte enter para encerrar.");
+            input.nextLine();
+            return false;
         }
     }
 }
