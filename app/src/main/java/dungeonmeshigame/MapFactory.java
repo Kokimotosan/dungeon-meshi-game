@@ -23,7 +23,8 @@ public class MapFactory {
         generateChildren(left_child, 1, depth);
         generateChildren(right_child, 1, depth);
         setShortcutsForAllChildren(root, shortcutChance);
-        setFloorOneRooms(root);
+        setFloorOneRooms(left_child);
+        setFloorOneRooms(right_child);
 
         return root;
     }

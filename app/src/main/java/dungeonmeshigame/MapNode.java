@@ -109,11 +109,21 @@ public class MapNode {
     }
 
     public String getString(){
-        String s = "Sala " + this.index + ": " + this.room.getNameString();
-        if(this.getShortcut() != null){
-            s += " (->" + this.getShortcut().getString() + ")";
+        if(this.room != null){
+            String s = "Sala " + this.index + ": " + this.room.getNameString();
+            if(this.getShortcut() != null){
+                s += " (->" + this.getShortcut().getString() + ")";
+            }
+            return s;
         }
-        return s;
+        else{
+            String s = "Sala " + this.index + ": Sala vazia";
+            if(this.getShortcut() != null){
+                s += " (->" + this.getShortcut().getString() + ")";
+            }
+            return s; 
+        }
+
     }
     
 }

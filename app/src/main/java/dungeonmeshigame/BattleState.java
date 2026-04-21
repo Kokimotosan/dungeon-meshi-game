@@ -104,6 +104,20 @@ public class BattleState{
         return array;
     }
 
+    public boolean isFirstEnemyTurn(){
+        int i = turn - 1;
+        while(initiative.get(i) instanceof Enemy && !(initiative.get(i).isAlive())){
+            i = i - 1;
+        }
+
+        if(initiative.get(i) instanceof Hero){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     /**
      * Determina qual personagem (herói ou inimigo) deve agir no turno atual.
      * * @return O objeto {@link Character} correspondente ao personagem que tem o turno atual.

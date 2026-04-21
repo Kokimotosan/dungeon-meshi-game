@@ -16,7 +16,7 @@ public class RoomFactory{
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
         int diff = 0;
-        while((rng.nextInt(20) + 1) > diff){
+        while((rng.nextInt(16) + 1) > diff){
             int next_enemy = rng.nextInt(2);
             if(next_enemy == 0){   
                 int index = countEnemiesOfType(enemies, WalkingMushroom.class);

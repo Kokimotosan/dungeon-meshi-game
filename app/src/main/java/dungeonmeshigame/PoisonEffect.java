@@ -76,9 +76,14 @@ public class PoisonEffect extends Effect{
      * </p>
      */
     public void apply(BattleState battle){
-        getHolder().health -= getPower();
-        this.setPower(this.getPower() - 1);
-        if (this.getPower() == 0)
+        if (this.getPower() > 0 && getHolder().isAlive()){
+            getHolder().health -= getPower();
+            System.out.println(getHolder().name + " tomou " + getPower() + " de dano veneno.");
+            this.setPower(this.getPower() - 1);
+        }
+        if (this.getPower() <= 0 || !(getHolder().isAlive())){
             unnapply();
+            System.out.println(getHolder().name + " se curou do veneno.");
+        }
     }    
 }
