@@ -58,16 +58,9 @@ public class App {
      */
     public static void main(String[] args) throws Exception {
         Party party = new Party();
-        Hero Laios = new Hero("Laios", 20, 20, 0, 3);
+        Hero Laios = new Hero("Laios", 25, 25, 0, 3);
         party.addMember(Laios);
 
-        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        Enemy mush1 = new WalkingMushroom(1);
-        Enemy mush2 = new WalkingMushroom(2);
-        Enemy scorp1 = new HugeScorpion(1);
-        enemies.add(mush1);
-        enemies.add(mush2);
-        enemies.add(scorp1);
 
         Deck deck = new Deck();
 
@@ -104,12 +97,64 @@ public class App {
         }
 
         deck.shuffleDeck();
-        
-        BattleState currentBattle = new BattleState(party, enemies, deck, input);
-        Publisher battleFlow = new Publisher(currentBattle);
-        currentBattle.publisher = battleFlow;
 
-        battleLoop(currentBattle);
+        MapFactory mapGenerator = new MapFactory();
+
+        MapNode mapRoot = mapGenerator.floorOneMap(3, 60);
+        mapRoot.printTree();
+
+        GameState game = new GameState(party, 0, deck, mapRoot);
+
+        processRoom(game, pickNextRoom(mapRoot, mapRoot));
+    }
+
+    public static void processRoom(GameState game, MapNode current_node){
+        if(current_node == null){
+            System.out.println("Você chegou ao final da masmorro, parabéns!");
+        }
+        else if(current_node.getRoom() instanceof BattleRoom){
+            BattleState currentBattle = new BattleState(game, (BattleRoom) current_node.getRoom());
+            boolean battle_result = battleLoop(currentBattle);
+            if(battle_result == true){
+                MapNode next_room = pickNextRoom(game.getMapRoot(), current_node);
+                processRoom(game, next_room);
+            }
+        }
+    }
+
+    public static MapNode pickNextRoom(MapNode root, MapNode current_node){
+        clearScreen();
+        root.printTree();
+        System.out.println();
+        System.out.println("Você está na Sala " + current_node.getIndex() + ". Escolha aonde deseja ir:");
+        
+        ArrayList<MapNode> aux = new ArrayList<MapNode>();
+
+        if(current_node.getFirst_child() != null){
+            aux.add(current_node.getFirst_child());
+        }
+        if(current_node.getSecond_child() != null){
+            aux.add(current_node.getSecond_child());
+        }
+        if(current_node.getShortcut() != null){
+            aux.add(current_node.getShortcut());
+        }
+
+        for(int i = 0; i < aux.size(); i++){
+            System.out.println("(" + (i+1) + ") " + aux.get(i).getString());
+        }
+
+        if(aux.size() == 0){
+            return null;
+        }
+
+        int choice = receiveInput();
+        if(choice > 0 && choice <= aux.size()){
+            return aux.get(choice-1);
+        }
+        else{
+            return pickNextRoom(root, current_node);
+        }
     }
 
     /**
@@ -123,9 +168,11 @@ public class App {
      * </p>
      * * @param battle O objeto {@link BattleState} contendo as informações e o estado atual da batalha.
      */
-    public static void battleLoop(BattleState battle){
+    public static boolean battleLoop(BattleState battle){
 
         Character currentCharacter;
+
+        battle.party.wipeEffects();
 
         while(!battle.isOver()){
             currentCharacter = battle.getTurnCharacter();
@@ -186,8 +233,8 @@ public class App {
                             takenAction = true;
                             turnOver = true;
                             System.out.println("Aperte Enter para encerrar o turno...");
-                            battle.publisher.notifySubs(Event.END_HERO_TURN);
                             input.nextLine(); 
+
                         }
                     }
                     takenAction = false;
@@ -195,6 +242,9 @@ public class App {
     
             } else if(currentCharacter instanceof Enemy currentEnemy && currentCharacter.isAlive()){
                 clearScreen();
+                if(battle.isFirstEnemyTurn()){ // Turno do primeiro inimigo
+                    battle.publisher.notifySubs(Event.END_HERO_TURN);
+                }
                 currentEnemy.takeTurn(battle);
                 battle.printBattleState();
                 System.out.println("===== Turno de " + currentEnemy.name + " =====");
@@ -215,8 +265,14 @@ public class App {
         }
         if(one_hero_alive){
             System.out.println("Você venceu!");
+            System.out.println("Aperte enter para continuar...");
+            input.nextLine();
+            return true;
         }else{
             System.out.println("Sua equipe foi derrotada...");
+            System.out.println("Aperte enter para encerrar.");
+            input.nextLine();
+            return false;
         }
     }
 }
