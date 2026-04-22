@@ -74,7 +74,7 @@ public class App {
             Card shield_card = new ShieldCard("Panela inoxídavel do Senshi", 7, 2);
             deck.cards.add(shield_card);
 
-            Card mandragora = new pottedMandragoraCard("Mandrágora no vaso", 4, 3, 1);
+            Card mandragora = new PottedMandragoraCard("Mandrágora no vaso", 4, 3, 1);
             deck.cards.add(mandragora);
 
             Card poison_sting = new PoisonStingCard("Ferrão de Escorpião", 2, 1, 1);
