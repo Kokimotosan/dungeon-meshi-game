@@ -29,11 +29,21 @@ public class DeckTest {
     void drawReciclaDescarteQuandoDequeVazioNaIteracaoSeguinte() {
         Deck d = new Deck();
         d.discard_pile.add(new ShieldCard("S", 2, 1));
+        d.discard_pile.add(new SwordCard("T", 1, 1));
         ArrayList<Card> hand = new ArrayList<>();
-        // primeiro laço só repõe o deque a partir do descarte; a compra efetiva ocorre depois
         d.draw(hand, 2);
-        assertEquals(1, hand.size());
+        assertEquals(2, hand.size());
         assertTrue(d.cards.isEmpty());
+        assertTrue(d.discard_pile.isEmpty());
+    }
+
+    @Test
+    void reshuffleAllReconstróiDequeAPartirDoDescarte() {
+        Deck d = new Deck();
+        d.discard_pile.add(new SwordCard("a", 1, 1));
+        d.discard_pile.add(new SwordCard("b", 1, 1));
+        d.reshuffleAll();
+        assertEquals(2, d.cards.size());
         assertTrue(d.discard_pile.isEmpty());
     }
 }
