@@ -23,6 +23,7 @@ public class MapFactory {
         generateChildren(left_child, 1, depth);
         generateChildren(right_child, 1, depth);
         setShortcutsForAllChildren(root, shortcutChance);
+        root.setRoom(new InitialRoom("Entrada"));
         setFloorOneRooms(left_child);
         setFloorOneRooms(right_child);
 
@@ -138,7 +139,7 @@ public class MapFactory {
 
     private Room randomFloorOneRoom(){
         RoomFactory roomMaker = new RoomFactory();
-        return roomMaker.randomFloorOneBattleRoom();
+        return roomMaker.randomFloorOneBattleRoom(16);
     }
 
 }

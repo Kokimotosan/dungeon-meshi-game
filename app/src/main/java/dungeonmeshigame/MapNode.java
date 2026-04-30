@@ -1,7 +1,5 @@
 package dungeonmeshigame;
 
-import java.util.ArrayDeque;
-
 public class MapNode {
     private MapNode parent;
     private MapNode first_child;
@@ -123,7 +121,6 @@ public class MapNode {
             }
             return s; 
         }
-
     }
     
 }

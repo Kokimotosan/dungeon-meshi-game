@@ -66,19 +66,11 @@ public class GameStateAndMapTest {
     void roomFactoryCriaBatalhaComInimigos() {
         RoomFactory rf = new RoomFactory();
         for (int i = 0; i < 15; i++) {
-            BattleRoom br = rf.randomFloorOneBattleRoom();
+            BattleRoom br = rf.randomFloorOneBattleRoom(16);
             assertNotNull(br.getEnemies());
             assertTrue(br.getDifficulty() >= 0);
             assertTrue(br.getNameString().contains("Batalha"));
         }
-    }
-
-    @Test
-    void roomNomeEString() {
-        Room r = new Room("Descanso");
-        assertEquals("Descanso", r.getName());
-        r.setName("Outro");
-        assertEquals("Outro", r.getNameString());
     }
 
     @Test

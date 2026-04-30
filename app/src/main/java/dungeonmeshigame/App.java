@@ -1,7 +1,6 @@
 package dungeonmeshigame;
 
 import java.util.Scanner;
-import java.util.ArrayList;
 
 /**
  * A classe principal responsável por inicializar e executar o jogo Dungeon Meshi.
@@ -100,179 +99,12 @@ public class App {
 
         MapFactory mapGenerator = new MapFactory();
 
-        MapNode mapRoot = mapGenerator.floorOneMap(3, 60);
+        MapNode mapRoot = mapGenerator.floorOneMap(2, 75);
         mapRoot.printTree();
 
         GameState game = new GameState(party, 0, deck, mapRoot);
 
-        processRoom(game, pickNextRoom(mapRoot, mapRoot));
+        mapRoot.getRoom().processRoom(game, mapRoot);
     }
 
-    public static void processRoom(GameState game, MapNode current_node){
-        if(current_node == null){
-            System.out.println("Você chegou ao final da masmorro, parabéns!");
-        }
-        else if(current_node.getRoom() instanceof BattleRoom){
-            BattleState currentBattle = new BattleState(game, (BattleRoom) current_node.getRoom());
-            boolean battle_result = battleLoop(currentBattle);
-            if(battle_result == true){
-                MapNode next_room = pickNextRoom(game.getMapRoot(), current_node);
-                processRoom(game, next_room);
-            }
-        }
-    }
-
-    public static MapNode pickNextRoom(MapNode root, MapNode current_node){
-        clearScreen();
-        root.printTree();
-        System.out.println();
-        System.out.println("Você está na Sala " + current_node.getIndex() + ". Escolha aonde deseja ir:");
-        
-        ArrayList<MapNode> aux = new ArrayList<MapNode>();
-
-        if(current_node.getFirst_child() != null){
-            aux.add(current_node.getFirst_child());
-        }
-        if(current_node.getSecond_child() != null){
-            aux.add(current_node.getSecond_child());
-        }
-        if(current_node.getShortcut() != null){
-            aux.add(current_node.getShortcut());
-        }
-
-        for(int i = 0; i < aux.size(); i++){
-            System.out.println("(" + (i+1) + ") " + aux.get(i).getString());
-        }
-
-        if(aux.size() == 0){
-            return null;
-        }
-
-        int choice = receiveInput();
-        if(choice > 0 && choice <= aux.size()){
-            return aux.get(choice-1);
-        }
-        else{
-            return pickNextRoom(root, current_node);
-        }
-    }
-
-    /**
-     * Controla o fluxo central do combate até que o jogo termine.
-     * <p>
-     * O método gerencia a alternância de turnos entre os heróis e os inimigos. 
-     * Durante o turno do herói, exibe as opções de cartas, gerencia a energia,
-     * permite o uso de itens/ataques/cartas e notifica eventos do jogo. 
-     * Durante o turno dos inimigos, automatiza seus ataques.
-     * Ao final, verifica e exibe a mensagem de vitória ou derrota.
-     * </p>
-     * * @param battle O objeto {@link BattleState} contendo as informações e o estado atual da batalha.
-     */
-    public static boolean battleLoop(BattleState battle){
-
-        Character currentCharacter;
-
-        battle.party.wipeEffects();
-
-        while(!battle.isOver()){
-            currentCharacter = battle.getTurnCharacter();
-
-            if(currentCharacter instanceof Hero){
-                if(battle.turn == 0){ // Turno do primeiro herói
-                    battle.publisher.notifySubs(Event.START_HERO_TURN);
-                    for(Enemy enemy : battle.enemies){
-                        enemy.setIntentions(battle);
-                    }
-                    battle.discardHand();
-                    battle.party.energy = battle.party.getMaxEnergy();
-                    battle.deck.draw(battle.hand, 5);
-                    for(int i = 0; i < battle.party.members.size(); i++){
-                        battle.party.members.get(i).shield = 0;
-                    }
-                }
-
-                boolean takenAction = false;
-                boolean turnOver = false;
-                Card using = new EmptyCard();
-                while(!turnOver){
-                    clearScreen();
-                    using.printUseLog();
-                    battle.printBattleState();
-                    if(battle.isOver()){
-                        turnOver = true;
-                        continue;
-                    }
-                    battle.printHand();
-                    for (Enemy enemy : battle.enemies)
-                        if (enemy.isAlive())
-                            enemy.announceIntentions(battle);
-                    System.out.println("\n" + "===== Turno de " + currentCharacter.name + " =====");
-                    battle.party.printEnergy();
-                    battle.publisher.notifySubs(Event.BEFORE_HERO_ACTION);
-                    System.out.println("Escolha uma ação:");
-                    for (int i = 0; i < battle.hand.size(); i++)
-                        System.out.println("(" + (i + 1) + ")" + " " + battle.hand.get(i).getName());
-                    System.out.println("(0) Passe o turno");
-                    
-                    int choice = input.nextInt(); 
-                    input.nextLine(); 
-
-                    while (!takenAction) {
-                        if (choice != 0){
-                            if (choice > battle.hand.size() || choice < 0){
-                                System.out.println("Opção invalida!");
-                                choice = input.nextInt(); 
-                                input.nextLine(); 
-                            } else {
-                                battle.publisher.notifySubs(Event.USE_CARD);
-                                using = battle.hand.get(choice - 1);
-                                using.useCard(battle, using.askForTarget(battle, input));
-                                takenAction = true;
-                            }
-                        } else {
-                            takenAction = true;
-                            turnOver = true;
-                            System.out.println("Aperte Enter para encerrar o turno...");
-                            input.nextLine(); 
-
-                        }
-                    }
-                    takenAction = false;
-                }
-    
-            } else if(currentCharacter instanceof Enemy currentEnemy && currentCharacter.isAlive()){
-                clearScreen();
-                if(battle.isFirstEnemyTurn()){ // Turno do primeiro inimigo
-                    battle.publisher.notifySubs(Event.END_HERO_TURN);
-                }
-                currentEnemy.takeTurn(battle);
-                battle.printBattleState();
-                System.out.println("===== Turno de " + currentEnemy.name + " =====");
-                currentEnemy.printActionLog();
-                System.out.println("Dê enter para ver o próximo turno");
-                input.nextLine(); 
-            }
-
-            battle.passTurn();
-        }
-
-        boolean one_hero_alive = false;
-        for(Character chara:battle.party.members){
-            if(chara.isAlive()){
-                one_hero_alive = true;
-                break;
-            }
-        }
-        if(one_hero_alive){
-            System.out.println("Você venceu!");
-            System.out.println("Aperte enter para continuar...");
-            input.nextLine();
-            return true;
-        }else{
-            System.out.println("Sua equipe foi derrotada...");
-            System.out.println("Aperte enter para encerrar.");
-            input.nextLine();
-            return false;
-        }
-    }
 }

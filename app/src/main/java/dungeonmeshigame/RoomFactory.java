@@ -10,13 +10,13 @@ public class RoomFactory{
         return;
     }
 
-    public BattleRoom randomFloorOneBattleRoom(){
+    public BattleRoom randomFloorOneBattleRoom(int diff_cap){
         Random rng = new Random();
         BattleRoom battle_room = new BattleRoom("Batalha", 0);
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
         int diff = 0;
-        while((rng.nextInt(16) + 1) > diff){
+        while((rng.nextInt(diff_cap) + 1) > diff){
             int next_enemy = rng.nextInt(2);
             if(next_enemy == 0){   
                 int index = countEnemiesOfType(enemies, WalkingMushroom.class);
