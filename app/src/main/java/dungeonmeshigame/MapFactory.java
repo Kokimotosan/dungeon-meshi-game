@@ -139,7 +139,16 @@ public class MapFactory {
 
     private Room randomFloorOneRoom(){
         RoomFactory roomMaker = new RoomFactory();
-        return roomMaker.randomFloorOneBattleRoom(16);
+        Random rng = new Random();
+
+        if(rng.nextInt(100) < 75){
+            return roomMaker.randomFloorOneBattleRoom(16);
+        }
+        else
+        {
+            return new CardRoom("Tesouro da Masmorra");
+        }
+
     }
 
 }

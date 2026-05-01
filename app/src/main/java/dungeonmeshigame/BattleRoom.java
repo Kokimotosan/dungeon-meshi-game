@@ -2,6 +2,7 @@ package dungeonmeshigame;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 public class BattleRoom extends Room {
     private ArrayList<Enemy> enemies;
@@ -35,18 +36,53 @@ public class BattleRoom extends Room {
     }
 
     public void processRoom(MapNode current_node){
+        Random rng = new Random();
         BattleState currentBattle = new BattleState(GameState.getInstance(), (BattleRoom) current_node.getRoom());
         boolean battle_result = battleLoop(currentBattle);
         if(battle_result == true){
+
+            ArrayList<Card> reward = new ArrayList<Card>();
+            for(int i = 0; i < 3; i++){
+                Card next_card = CardCatalog.catalog.get(rng.nextInt(CardCatalog.catalog.size()));
+                reward.add(next_card);
+            }
+
+            pickAReward(reward);
+
             MapNode next_room = pickNextRoom(GameState.getInstance().getMapRoot(), current_node);
             if(next_room == null){
                 System.out.println("Você chegou ao final do masmorro!");
-                
             }
             else{
                 next_room.getRoom().processRoom(next_room);
             }
         }
+    }
+
+    private static void pickAReward(ArrayList<Card> reward){
+            App.clearScreen();
+            System.out.println("Você pode escolher uma carta para levar");
+            System.out.println();
+
+            for(int i = 0; i < 3; i++){
+                System.out.println("(" + (i+1) + ")" + reward.get(i).getName());
+                reward.get(i).printCard();
+                System.out.println();
+            }
+            System.out.println("(0) Nenhuma");
+            System.out.println("Escolha uma carta para adicionar ao seu deck:");
+
+            int choice = App.receiveInput();
+            if(choice > 0 && choice <= 3){
+                GameState.getInstance().getDeck().cards.add(reward.get(choice));
+                return;
+            }
+            else if(choice == 0){
+                return;
+            }
+            else{
+                pickAReward(reward);
+            }
     }
 
     /**

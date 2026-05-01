@@ -97,6 +97,8 @@ public class App {
 
         deck.shuffleDeck();
 
+        CardCatalog.createCatalog();
+
         MapFactory mapGenerator = new MapFactory();
 
         MapNode mapRoot = mapGenerator.floorOneMap(2, 75);
