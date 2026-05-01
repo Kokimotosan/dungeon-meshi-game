@@ -14,6 +14,16 @@ public class EffectCard extends Card{
         this.effect = effect;
     }
 
+    public EffectCard(EffectCard cloned){
+        super(cloned.getName(), cloned.getCost());
+        this.effect = cloned.effect;
+    }
+
+    public Card clone(){
+        EffectCard clone = new EffectCard(this);
+        return clone;
+    }
+
     /**
      * Utiliza a carta gastando a energia do grupo, aplicando o efeito de Força 
      * no herói alvo e enviando a carta para a pilha de descarte.

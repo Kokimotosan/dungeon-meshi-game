@@ -13,6 +13,11 @@ public class PoisonStingCard extends SwordCard{
         this.poison_power = power;
    }
 
+   public PoisonStingCard(PoisonStingCard cloned){
+        super(cloned.getName(), cloned.damage, cloned.getCost());
+        this.poison_power = cloned.poison_power;
+   }
+
     /**
      * Usa a carta gastando energia do grupo, causa dano e aplica o efeito 
      * de veneno no inimigo alvo. Envia a carta para o descarte em caso de sucesso.

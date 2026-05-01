@@ -19,6 +19,14 @@ public abstract class Card {
         this.useLog = new String();
     }
 
+    public Card(Card cloned){
+        this.name = cloned.name;
+        this.cost = cloned.cost;
+        this.useLog = new String();
+    }
+
+    public abstract Card clone();
+
     /**
      * Remove esta carta da mão do jogador e a envia para a pilha de descarte do deck.
      * * @param battle O estado atual da batalha ({@link BattleState}), que contém a mão e o deck.

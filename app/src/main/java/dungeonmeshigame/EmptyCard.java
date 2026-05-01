@@ -16,6 +16,10 @@ public class EmptyCard extends Card {
     public EmptyCard() {
         super("EmptyCard", 0);
     }
+
+    public Card clone(){
+        return new EmptyCard();
+    }
     
     public void printCard(){
         return;

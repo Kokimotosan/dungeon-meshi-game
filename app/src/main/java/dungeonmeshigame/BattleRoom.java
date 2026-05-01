@@ -34,17 +34,17 @@ public class BattleRoom extends Room {
         return s;
     }
 
-    public void processRoom(GameState game, MapNode current_node){
-        BattleState currentBattle = new BattleState(game, (BattleRoom) current_node.getRoom());
+    public void processRoom(MapNode current_node){
+        BattleState currentBattle = new BattleState(GameState.getInstance(), (BattleRoom) current_node.getRoom());
         boolean battle_result = battleLoop(currentBattle);
         if(battle_result == true){
-            MapNode next_room = pickNextRoom(game.getMapRoot(), current_node);
+            MapNode next_room = pickNextRoom(GameState.getInstance().getMapRoot(), current_node);
             if(next_room == null){
                 System.out.println("Você chegou ao final do masmorro!");
                 
             }
             else{
-                next_room.getRoom().processRoom(game, next_room);
+                next_room.getRoom().processRoom(next_room);
             }
         }
     }

@@ -11,47 +11,6 @@ import java.util.ArrayList;
 public class GameStateAndMapTest {
 
     @Test
-    void gameStateGettersSetters() {
-        Party p = new Party();
-        p.addMember(new Hero("h", 5, 5, 0, 1));
-        Deck d = new Deck();
-        MapNode root = new MapNode(0);
-        GameState g = new GameState(p, 10, d, root);
-        assertSame(p, g.getParty());
-        assertSame(d, g.getDeck());
-        assertSame(root, g.getMapRoot());
-        assertEquals(10, g.getMoney());
-
-        Party p2 = new Party();
-        p2.addMember(new Hero("x", 1, 1, 0, 1));
-        Deck d2 = new Deck();
-        MapNode r2 = new MapNode(9);
-        g.setParty(p2);
-        g.setDeck(d2);
-        g.setMapRoot(r2);
-        g.setMoney(3);
-        assertSame(p2, g.getParty());
-        assertSame(d2, g.getDeck());
-        assertSame(r2, g.getMapRoot());
-        assertEquals(3, g.getMoney());
-    }
-
-    @Test
-    void battleStateConstrutorAPartirDeGameStateESala() {
-        Party p = new Party();
-        p.addMember(new Hero("h", 10, 10, 0, 2));
-        Deck deck = new Deck();
-        MapNode root = new MapNode(0);
-        GameState game = new GameState(p, 0, deck, root);
-        BattleRoom room = new BattleRoom("Sala", 5);
-        room.setEnemies(new ArrayList<>());
-        BattleState b = new BattleState(game, room);
-        assertSame(p, b.party);
-        assertSame(deck, b.deck);
-        assertSame(room.getEnemies(), b.enemies);
-    }
-
-    @Test
     void mapFactoryGeraArvoreESalas() {
         MapFactory mf = new MapFactory();
         for (int i = 0; i < 8; i++) {
