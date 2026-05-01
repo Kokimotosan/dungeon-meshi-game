@@ -25,7 +25,7 @@ public abstract class Room {
     Método que executa o evento associado a sala.
     É o "iniciar" pedido no enunciado.
      */
-    public abstract void processRoom(GameState current_game, MapNode current_node);
+    public abstract void processRoom(MapNode current_node);
 
     public static MapNode pickNextRoom(MapNode root, MapNode current_node){
         App.clearScreen();

@@ -1,47 +1,51 @@
 package dungeonmeshigame;
 
 public class GameState {
+
+    private static GameState instance;
     private MapNode mapRoot;
+    private Party party;
+    private Deck deck;
+
     public MapNode getMapRoot() {
-        return mapRoot;
+        return instance.mapRoot;
     }
 
     public void setMapRoot(MapNode mapRoot) {
-        this.mapRoot = mapRoot;
+        instance.mapRoot = mapRoot;
     }
 
-    private Party party;
-    private int money;
-    private Deck deck;
-
-    public GameState(Party party, int money, Deck deck, MapNode root){
+    private GameState(Party party, Deck deck, MapNode root){
         this.party = party;
-        this.money = money;
         this.deck = deck;
         this.mapRoot = root;
     }
 
+    public static void createInitialInstance(Party party, Deck deck, MapNode root){
+        instance = new GameState(party, deck, root);
+    }
+
+    public static GameState getInstance(){
+        if(instance == null){
+            createInitialInstance(null, null, null);
+        }
+
+        return instance;
+    }
+
     public Party getParty() {
-        return party;
+        return instance.party;
     }
 
     public void setParty(Party party) {
-        this.party = party;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
+        instance.party = party;
     }
 
     public Deck getDeck() {
-        return deck;
+        return instance.deck;
     }
 
     public void setDeck(Deck deck) {
-        this.deck = deck;
+        instance.deck = deck;
     }
 }

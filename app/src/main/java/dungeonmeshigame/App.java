@@ -102,9 +102,9 @@ public class App {
         MapNode mapRoot = mapGenerator.floorOneMap(2, 75);
         mapRoot.printTree();
 
-        GameState game = new GameState(party, 0, deck, mapRoot);
+        GameState.createInitialInstance(party, deck, mapRoot);
 
-        mapRoot.getRoom().processRoom(game, mapRoot);
+        mapRoot.getRoom().processRoom(mapRoot);
     }
 
 }
