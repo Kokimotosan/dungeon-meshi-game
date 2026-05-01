@@ -16,6 +16,16 @@ public class StrenghtCard extends Card{
         this.duration = duration;
     }
 
+    public StrenghtCard(StrenghtCard cloned){
+        super(cloned.getName(), cloned.getCost());
+        this.power = cloned.power;
+        this.duration = cloned.duration;
+    }
+
+    public StrenghtCard clone(){
+        return new StrenghtCard(this);
+    }
+
     /**
      * Utiliza a carta gastando a energia do grupo, aplicando o efeito de Força 
      * no herói alvo e enviando a carta para a pilha de descarte.

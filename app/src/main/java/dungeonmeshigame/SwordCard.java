@@ -27,6 +27,15 @@ public class SwordCard extends Card {
         this.damage = damage;
     }
 
+    public SwordCard(SwordCard cloned){
+        super(cloned.getName(), cloned.getCost());
+        this.damage = cloned.damage;
+    }
+
+    public SwordCard clone(){
+        return new SwordCard(this);
+    }
+
     /**
      * Utiliza a carta gastando a energia do grupo, aplicando o dano (base + modificadores) 
      * ao inimigo alvo e enviando a carta para a pilha de descarte.

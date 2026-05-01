@@ -27,6 +27,15 @@ public class PottedMandragoraCard extends SwordCard {
         this.self_damage = self_damage;
     }
 
+    public PottedMandragoraCard(PottedMandragoraCard cloned){
+        super(cloned.getName(), cloned.damage, cloned.getCost());
+        this.self_damage = cloned.self_damage;
+    }
+
+    public PottedMandragoraCard clone(){
+        return new PottedMandragoraCard(this);
+    }
+
     /**
      * Utiliza a carta gastando a energia do grupo, aplicando o dano (base + modificadores) 
      * ao inimigo alvo e enviando a carta para a pilha de descarte.

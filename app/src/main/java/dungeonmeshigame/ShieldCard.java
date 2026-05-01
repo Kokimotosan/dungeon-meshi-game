@@ -30,6 +30,10 @@ public class ShieldCard extends Card {
         this.shield = cloned.shield;
     }
 
+    public ShieldCard clone(){
+        return new ShieldCard(this);
+    }
+
     /**
      * Utiliza a carta gastando a energia do grupo, aplicando os pontos de escudo 
      * ao alvo e movendo a carta para a pilha de descarte.

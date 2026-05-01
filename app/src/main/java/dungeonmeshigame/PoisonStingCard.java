@@ -11,12 +11,16 @@ public class PoisonStingCard extends SwordCard{
     public PoisonStingCard(String name, int power, int damage, int cost){
         super(name, damage, cost);
         this.poison_power = power;
-   }
+    }
 
-   public PoisonStingCard(PoisonStingCard cloned){
+    public PoisonStingCard(PoisonStingCard cloned){
         super(cloned.getName(), cloned.damage, cloned.getCost());
         this.poison_power = cloned.poison_power;
-   }
+    }
+
+    public PoisonStingCard clone(){
+        return new PoisonStingCard(this);
+    }
 
     /**
      * Usa a carta gastando energia do grupo, causa dano e aplica o efeito 
