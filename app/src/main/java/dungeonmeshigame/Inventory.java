@@ -62,7 +62,7 @@ public class Inventory {
     public void EditInventory(){
         Scanner scan = new Scanner(System.in);
         System.out.println("(0) Remova um item");
-        System.out.println("(1) Retorne");
+        System.out.println("(1) Adicionar item");
         int choice = scan.nextInt();
         if (choice == 0)
             this.removeItem();
@@ -73,7 +73,7 @@ public class Inventory {
     }
 
     void addItem(Item nItem){
-        
+        this.items.put(nItem, this.items.getOrDefault(nItem, 0) + 1);
     }
 
 }
